@@ -1,0 +1,35 @@
+{
+  "name": "exoframe",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Autonomous delivery control plane around pstack",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "lint": "node scripts/lint.mjs",
+    "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2"
+  }
+}

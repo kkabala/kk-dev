@@ -23,16 +23,16 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`L0.1 — Bootstrap the implementation ledger`
+`S0.1 — Project and test scaffold (awaiting review)`
 
 ## Task ledger
 
 | ID | Slice | Status | Acceptance evidence | Review / commit |
 |---|---|---|---|---|
-| L0.1 | Bootstrap the implementation ledger | AWAITING_REVIEW | Full MVP slice audit; scenarios 1–41 have owners | `GR-20260831-L0.1-R2`; commit pending |
+| L0.1 | Bootstrap the implementation ledger | DONE | Full MVP slice audit; scenarios 1–41 have owners | `GR-20260831-L0.1-R2`; `3c0d8a8` |
 | D0.1 | Rewrite the final specification around Exoframe | DONE | Markdown/link checks; Mermaid 11.16.0 render | Grok `ACCEPT`; `de07a1b` |
 | D0.2 | Separate post-MVP provider/plugin design | DONE | Linked companion document; scope audit | Grok `ACCEPT`; `de07a1b` |
-| S0.1 | Create Node/TypeScript project and test scaffold | NOT_STARTED | `npm test`, typecheck, lint/build scripts | pending |
+| S0.1 | Create Node/TypeScript project and test scaffold | AWAITING_REVIEW | RED: missing `src/index`; GREEN: `npm run check` | `GR-20260831-S0.1-R1`; commit pending |
 | S0.2 | Add Exoframe CLI entry point and package metadata | NOT_STARTED | CLI help smoke test | pending |
 | S0.3 | Record Retemper reuse/attribution policy and pstack boundary | NOT_STARTED | documentation/license assertions | pending |
 | S0.4 | Characterize installed pstack capabilities and capture baseline human-time/flake/escape/cost metrics | NOT_STARTED | reproducible characterization report and baseline fixture | pending |
@@ -127,4 +127,5 @@ Every required scenario in specification section 26 has an implementation owner.
 | Commit | Scope | Tests / validation | Grok verdict |
 |---|---|---|---|
 | `de07a1b` | Exoframe MVP and post-MVP specifications | Markdown links/fences, `git diff --check`, Mermaid render | `ACCEPT` |
-| pending | L0.1 implementation-ledger bootstrap | Markdown and full-scope ownership audit | awaiting `GR-20260831-L0.1-R2` |
+| `3c0d8a8` | L0.1 implementation-ledger bootstrap | Markdown and full-scope ownership audit | `ACCEPT` (`GR-20260831-L0.1-R2`) |
+| pending | S0.1 Node/TypeScript project and test scaffold | `npm run check` | awaiting `GR-20260831-S0.1-R1` |
