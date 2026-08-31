@@ -5,6 +5,9 @@
   "description": "Autonomous delivery control plane around pstack",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "exoframe": "./dist/bin.js"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -19,8 +22,9 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build && npm run smoke",
     "lint": "node scripts/lint.mjs",
+    "smoke": "node dist/bin.js --help",
     "test": "node --test",
     "test:coverage": "node --test --experimental-test-coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"

@@ -1,15 +1,4 @@
-export type ProductInfo = Readonly<{
-  name: "Exoframe";
-  version: "0.0.0";
-  private: true;
-}>;
-
-const PRODUCT_INFO: ProductInfo = Object.freeze({
-  name: "Exoframe",
-  version: "0.0.0",
-  private: true,
-});
-
-export function productInfo(): ProductInfo {
-  return PRODUCT_INFO;
-}
+export { runCli } from "./cli.ts";
+export type { CliIo } from "./cli.ts";
+export { productInfo } from "./product.ts";
+export type { ProductInfo } from "./product.ts";
