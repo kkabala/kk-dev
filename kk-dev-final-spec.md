@@ -82,7 +82,14 @@ Exoframe:
 
 No human is needed when the task is sufficiently clear. Exoframe asks the user only when it cannot safely resolve a product, design, security, authorization, or exception decision.
 
-This is not Retemper's interactive Planning phase. Exoframe performs automatic control planning. Pstack performs detailed implementation planning later.
+Steps 2 and 3 start automatically as part of the same run. Neither is a user approval checkpoint. The acceptance author in Step 3 is an independent machine role scheduled by Exoframe, not a human reviewer.
+
+Exoframe does not have or require a Retemper-style interactive Planning phase. The canonical boundary is:
+
+- **Exoframe prepares the run:** intent, non-goals, surfaces, risk, acceptance outcomes, gates, and writable scope;
+- **pstack plans the implementation:** repository exploration, technical choices, work decomposition, and execution.
+
+A user-supplied plan may be included as task context, but it is optional and cannot bypass Exoframe's independently derived controls.
 
 ### Step 3 — Exoframe proves the behavior is initially missing
 

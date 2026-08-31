@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S0.2 — Exoframe CLI entry point and package metadata (awaiting review)`
+`D0.3 — Clarify automatic run preparation and post-MVP integration profiles`
 
 ## Task ledger
 
@@ -33,7 +33,8 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | D0.1 | Rewrite the final specification around Exoframe | DONE | Markdown/link checks; Mermaid 11.16.0 render | Grok `ACCEPT`; `de07a1b` |
 | D0.2 | Separate post-MVP provider/plugin design | DONE | Linked companion document; scope audit | Grok `ACCEPT`; `de07a1b` |
 | S0.1 | Create Node/TypeScript project and test scaffold | DONE | RED: missing `src/index`; GREEN: `npm run check` | `GR-20260831-S0.1-R1`; `dd945cd` |
-| S0.2 | Add Exoframe CLI entry point and package metadata | AWAITING_REVIEW | RED: missing `src/cli`; GREEN: four tests and built help smoke | `GR-20260831-S0.2-R1`; commit pending |
+| S0.2 | Add Exoframe CLI entry point and package metadata | DONE | RED: missing `src/cli`; GREEN: four tests and built help smoke | `GR-20260831-S0.2-R1`; `1bb2cdd` |
+| D0.3 | Clarify automatic run preparation and post-MVP integration profiles | AWAITING_REVIEW | terminology and cross-document scope audit; `npm run check`; balanced fences | `GR-20260901-D0.3-R1`; commit pending |
 | S0.3 | Record Retemper reuse/attribution policy and pstack boundary | NOT_STARTED | documentation/license assertions | pending |
 | S0.4 | Characterize installed pstack capabilities and capture baseline human-time/flake/escape/cost metrics | NOT_STARTED | reproducible characterization report and baseline fixture | pending |
 | S1.1 | Define task, intent, decision-packet, and run-state types | NOT_STARTED | schema/type unit tests | pending |
@@ -129,4 +130,5 @@ Every required scenario in specification section 26 has an implementation owner.
 | `de07a1b` | Exoframe MVP and post-MVP specifications | Markdown links/fences, `git diff --check`, Mermaid render | `ACCEPT` |
 | `3c0d8a8` | L0.1 implementation-ledger bootstrap | Markdown and full-scope ownership audit | `ACCEPT` (`GR-20260831-L0.1-R2`) |
 | `dd945cd` | S0.1 Node/TypeScript project and test scaffold | `npm run check`; npm audit | `ACCEPT` (`GR-20260831-S0.1-R1`) |
-| pending | S0.2 CLI entry point and package metadata | `npm run check`; built CLI smoke | awaiting `GR-20260831-S0.2-R1` |
+| `1bb2cdd` | S0.2 CLI entry point and package metadata | `npm run check`; built CLI smoke; package-consumer typecheck | `ACCEPT` (`GR-20260831-S0.2-R1`) |
+| pending | D0.3 automatic preparation and integration-profile clarification | terminology and cross-document scope audit; `npm run check`; balanced fences | awaiting `GR-20260901-D0.3-R1` |

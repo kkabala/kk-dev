@@ -44,9 +44,22 @@ This behavior must be explicitly configured and auditable. Exoframe must not sil
 
 Repository hosting, review governance, pipeline execution, and release observation are separate capabilities. One plugin may implement several capabilities, but Exoframe must not assume they come from the same vendor.
 
-## 4. Declarative task routing
+## 4. Project integration profiles
 
-A repository or organization should be able to teach Exoframe its task conventions with versioned configuration:
+A **project integration profile** is the canonical way to teach Exoframe how a project names tasks and which engineering systems it uses. Teaching means configuring and approving the profile once; later matching runs resolve their systems automatically without asking the user to repeat those choices.
+
+The profile is explicit, inspectable, versioned configuration. It is not conversational memory, model fine-tuning, or an implicit rule inferred from prior prompts. It may be organization-scoped with repository-specific overrides once configuration inheritance is defined.
+
+The profile selects these capabilities independently:
+
+- task-source routing;
+- repository access and hosting;
+- review and governance state;
+- pipeline execution and monitoring;
+- release and delivery observation;
+- optional notifications.
+
+A repository or organization should be able to configure its conventions as follows:
 
 ```yaml
 task_routes:
@@ -69,7 +82,9 @@ defaults:
   pipeline_provider: github-actions
 ```
 
-Configuration may be created manually or through a setup command, but the resulting rules must be inspectable, versioned, and validated.
+GitHub, GitHub review governance, and GitHub Actions remain the defaults when a profile does not override them. Repository access and pipeline monitoring are separate selections: for example, a GitHub repository may use Buildkite, while a GitLab repository may use Jenkins.
+
+Configuration may be created manually or through a setup command, but the resulting profile must be inspectable, versioned, validated, and identified in the run audit record.
 
 Suggested commands:
 
@@ -78,6 +93,8 @@ exoframe plugins list
 exoframe plugins install <plugin>
 exoframe plugins configure <plugin>
 exoframe plugins doctor
+exoframe profiles show
+exoframe profiles validate
 exoframe task resolve ABC-123
 exoframe providers explain ABC-123
 ```
@@ -141,6 +158,9 @@ A successful provider pipeline is an authenticated observation. It becomes suffi
 
 ```text
 User: exoframe run ABC-123
+          |
+          v
+Project integration profile selects the configured routes and providers
           |
           v
 Task router matches company-jira
@@ -252,6 +272,8 @@ The plugin architecture is ready when all of the following are demonstrable:
 8. Missing, expired, or over-scoped credentials fail without exposing secret material.
 9. Plugin upgrades change the recorded digest and invalidate affected reusable evidence where required.
 10. Disabling a plugin preserves prior task, evidence, and audit records.
+11. Once a project integration profile is configured, repeated matching task references require no provider-selection prompt.
+12. Every plugin-assisted run records the profile identity and revision that selected its providers.
 
 ## 11. Explicitly deferred decisions
 
