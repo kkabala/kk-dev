@@ -7,6 +7,10 @@ The MVP is being implemented from [the final specification](./kk-dev-final-spec.
 Progress and pre-commit Grok reviews are recorded in
 [the implementation ledger](./IMPLEMENTATION_LEDGER.md).
 
+Exoframe is available under the [MIT License](./LICENSE.md). Its Retemper source
+provenance rules and the unchanged pstack/poteto-mode boundary are recorded in
+[source-provenance and third-party notices](./THIRD_PARTY_NOTICES.md).
+
 ## Development
 
 Requirements: Node.js 22.18 or newer.

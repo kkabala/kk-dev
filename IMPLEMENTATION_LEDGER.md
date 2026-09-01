@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`D0.3 — Clarify automatic run preparation and post-MVP integration profiles`
+`S0.3 — Record Retemper reuse/provenance policy and pstack boundary`
 
 ## Task ledger
 
@@ -34,8 +34,8 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | D0.2 | Separate post-MVP provider/plugin design | DONE | Linked companion document; scope audit | Grok `ACCEPT`; `de07a1b` |
 | S0.1 | Create Node/TypeScript project and test scaffold | DONE | RED: missing `src/index`; GREEN: `npm run check` | `GR-20260831-S0.1-R1`; `dd945cd` |
 | S0.2 | Add Exoframe CLI entry point and package metadata | DONE | RED: missing `src/cli`; GREEN: four tests and built help smoke | `GR-20260831-S0.2-R1`; `1bb2cdd` |
-| D0.3 | Clarify automatic run preparation and post-MVP integration profiles | AWAITING_REVIEW | terminology and cross-document scope audit; `npm run check`; balanced fences | `GR-20260901-D0.3-R1`; commit pending |
-| S0.3 | Record Retemper reuse/attribution policy and pstack boundary | NOT_STARTED | documentation/license assertions | pending |
+| D0.3 | Clarify automatic run preparation and post-MVP integration profiles | DONE | terminology and cross-document scope audit; `npm run check`; balanced fences | `GR-20260901-D0.3-R1`; `4d9f237` |
+| S0.3 | Record Retemper reuse/provenance policy and pstack boundary | AWAITING_REVIEW | RED: empty license; GREEN: 10 licensing tests, full `npm run check`, isolated clean/stale-output package with exactly 16 artifacts, and boolean/array bundle probes | `GR-20260901-S0.3-R1`; commit pending |
 | S0.4 | Characterize installed pstack capabilities and capture baseline human-time/flake/escape/cost metrics | NOT_STARTED | reproducible characterization report and baseline fixture | pending |
 | S1.1 | Define task, intent, decision-packet, and run-state types | NOT_STARTED | schema/type unit tests | pending |
 | S1.2 | Implement deterministic run-state transitions and result precedence | NOT_STARTED | transition-table tests | pending |
@@ -131,4 +131,5 @@ Every required scenario in specification section 26 has an implementation owner.
 | `3c0d8a8` | L0.1 implementation-ledger bootstrap | Markdown and full-scope ownership audit | `ACCEPT` (`GR-20260831-L0.1-R2`) |
 | `dd945cd` | S0.1 Node/TypeScript project and test scaffold | `npm run check`; npm audit | `ACCEPT` (`GR-20260831-S0.1-R1`) |
 | `1bb2cdd` | S0.2 CLI entry point and package metadata | `npm run check`; built CLI smoke; package-consumer typecheck | `ACCEPT` (`GR-20260831-S0.2-R1`) |
-| pending | D0.3 automatic preparation and integration-profile clarification | terminology and cross-document scope audit; `npm run check`; balanced fences | awaiting `GR-20260901-D0.3-R1` |
+| `4d9f237` | D0.3 automatic preparation and integration-profile clarification | terminology and cross-document scope audit; `npm run check`; balanced fences | `ACCEPT` (`GR-20260901-D0.3-R1`) |
+| pending | S0.3 Retemper provenance policy and pstack boundary | earlier cycle found stale-`dist` and boolean bundle gaps; resumed cycle 4 fixed them; 10 licensing tests, full `npm run check`, isolated clean/stale-output package with exactly 16 artifacts, and boolean/array bundle probes are green | awaiting `GR-20260901-S0.3-R1` |

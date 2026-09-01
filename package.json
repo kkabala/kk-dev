@@ -18,12 +18,15 @@
   },
   "files": [
     "dist",
-    "LICENSE.md"
+    "LICENSE.md",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
     "check": "npm run lint && npm run typecheck && npm test && npm run build && npm run smoke",
+    "clean": "node scripts/clean.mjs",
     "lint": "node scripts/lint.mjs",
+    "prepack": "npm run build",
     "smoke": "node dist/bin.js --help",
     "test": "node --test",
     "test:coverage": "node --test --experimental-test-coverage",

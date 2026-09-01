@@ -32,7 +32,7 @@ The central rule is simple:
 
 ## 2. Product boundary
 
-Exoframe is a new project. Retemper is an inspiration and a possible source of MIT-licensed code, but Exoframe does not need to preserve Retemper's name, phase structure, or compatibility. Reused Retemper code must retain the required copyright and license notices.
+Exoframe is a new project. Retemper is an inspiration and an owner-authorized possible source of code, but Exoframe does not need to preserve Retemper's name, phase structure, or compatibility. Because Retemper and Exoframe have the same owner, reuse of Retemper-owned code does not require attribution or credit. Every reuse must still record immutable engineering provenance: the source repository and exact commit or revision, source path, Exoframe destination path, and modification notes. This authorization does not cover third-party or vendored material found inside Retemper; that material remains subject to its own license.
 
 Pstack/poteto-mode is a third-party implementation engine. Exoframe must not modify, fork, or copy its internals. Exoframe integrates with it through an owned adapter and its supported public capabilities.
 
@@ -940,7 +940,8 @@ Pure outputs MUST support canonical serialization and golden-vector tests.
 ### Stage 0 — Baseline and reuse decisions
 
 - create the Exoframe repository and product identity;
-- record Retemper MIT attribution for any reused code;
+- record immutable engineering provenance for reused Retemper-owned code and
+  preserve any licenses or notices required by third-party or vendored material;
 - capture existing pstack invocation and capability behavior without modifying it;
 - establish baseline human time, cycle time, flake, escape, and runner cost.
 
