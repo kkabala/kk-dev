@@ -22,6 +22,7 @@
     "THIRD_PARTY_NOTICES.md"
   ],
   "scripts": {
+    "baseline:s0.4": "node scripts/capture-s0.4-baseline.mjs",
     "build": "npm run clean && tsc -p tsconfig.build.json",
     "check": "npm run lint && npm run typecheck && npm test && npm run build && npm run smoke",
     "clean": "node scripts/clean.mjs",

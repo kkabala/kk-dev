@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "contract_id": "exoframe.pstack.implementation-engine",
+  "implementation_engine": "pstack",
+  "reference": {
+    "name": "pstack",
+    "version": "0.14.5",
+    "main_entry_skill": "poteto-mode"
+  },
+  "accepted_manifest_paths": [
+    ".cursor-plugin/plugin.json",
+    ".codex-plugin/plugin.json"
+  ],
+  "required_manifest_declarations": [
+    "skills",
+    "agents"
+  ],
+  "required_skill_ids": [
+    "poteto-mode"
+  ],
+  "required_agent_ids": [
+    "poteto-agent"
+  ]
+}

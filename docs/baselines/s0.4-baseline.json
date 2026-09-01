@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "baseline_id": "s0.4",
+  "observed_at": "2026-09-01T15:33:58.000Z",
+  "base_sha": "bc3466120576c5d4823f298599d011549e98da0d",
+  "contract": {
+    "id": "exoframe.pstack.implementation-engine",
+    "sha256": "60dc029502d5a51863db242c6eec288e1d7c40af8852039a74820f06539d2637"
+  },
+  "plugin": {
+    "declarations": {
+      "agents": false,
+      "apps": false,
+      "hooks": false,
+      "mcp": false,
+      "skills": true
+    },
+    "manifest_path": ".codex-plugin/plugin.json",
+    "manifest_sha256": "704427d8c5236a780e5d8276bbdf4abdb71ace132bf14f798a815d232b6f8d58",
+    "name": "pstack-plugin",
+    "version": "0.2.0",
+    "skill_ids": [
+      "architect",
+      "blast-radius",
+      "bro",
+      "how",
+      "principle-boundary-discipline",
+      "principle-build-the-lever",
+      "principle-encode-lessons-in-structure",
+      "principle-exhaust-the-design-space",
+      "principle-experience-first",
+      "principle-fix-root-causes",
+      "principle-foundational-thinking",
+      "principle-make-operations-idempotent",
+      "principle-migrate-callers-then-delete-legacy-apis",
+      "principle-minimize-reader-load",
+      "principle-model-the-domain",
+      "principle-prove-it-works",
+      "principle-redesign-from-first-principles",
+      "principle-separate-before-serializing-shared-state",
+      "principle-subtract-before-you-add",
+      "principle-type-system-discipline",
+      "recall",
+      "teach",
+      "technical-writing",
+      "typescript-best-practices",
+      "unslop",
+      "why"
+    ],
+    "agent_ids": []
+  },
+  "compatibility": {
+    "status": "incompatible",
+    "implementation_engine_status": "unavailable",
+    "missing_requirements": [
+      "plugin.name",
+      "plugin.version",
+      "manifest.agents",
+      "skills.poteto-mode",
+      "agents.poteto-agent"
+    ]
+  },
+  "metrics": {
+    "active_human_minutes_per_task": {
+      "sample_count": 0,
+      "value": null
+    },
+    "automatic_merge_rate_eligible_r0_r1": {
+      "sample_count": 0,
+      "value": null
+    },
+    "bounce_cycles_per_task": {
+      "sample_count": 0,
+      "value": null
+    },
+    "escaped_defect_rate_r0": {
+      "sample_count": 0,
+      "value": null
+    },
+    "escaped_defect_rate_r1": {
+      "sample_count": 0,
+      "value": null
+    },
+    "escaped_defect_rate_r2": {
+      "sample_count": 0,
+      "value": null
+    },
+    "escaped_defect_rate_r3": {
+      "sample_count": 0,
+      "value": null
+    },
+    "flaky_verification_rate": {
+      "sample_count": 0,
+      "value": null
+    },
+    "repeated_failure_fingerprint_rate": {
+      "sample_count": 0,
+      "value": null
+    },
+    "risk_underclassification_rate": {
+      "sample_count": 0,
+      "value": null
+    },
+    "rollback_rate_r0": {
+      "sample_count": 0,
+      "value": null
+    },
+    "rollback_rate_r1": {
+      "sample_count": 0,
+      "value": null
+    },
+    "rollback_rate_r2": {
+      "sample_count": 0,
+      "value": null
+    },
+    "rollback_rate_r3": {
+      "sample_count": 0,
+      "value": null
+    },
+    "runner_cost_usd_per_task": {
+      "sample_count": 0,
+      "value": null
+    },
+    "runner_duration_seconds_per_task": {
+      "sample_count": 0,
+      "value": null
+    },
+    "task_to_engineering_ready_seconds_per_task": {
+      "sample_count": 0,
+      "value": null
+    },
+    "task_to_merge_seconds_per_task": {
+      "sample_count": 0,
+      "value": null
+    },
+    "token_cost_usd_per_task": {
+      "sample_count": 0,
+      "value": null
+    },
+    "token_usage_per_task": {
+      "sample_count": 0,
+      "value": null
+    },
+    "uninterrupted_completion_rate": {
+      "sample_count": 0,
+      "value": null
+    }
+  }
+}
