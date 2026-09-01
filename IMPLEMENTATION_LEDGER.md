@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S1.2 — Implement deterministic run-state transitions and result precedence`
+`S1.3 — Persist and reload run state atomically`
 
 ## Task ledger
 
@@ -38,7 +38,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S0.3 | Record Retemper reuse/provenance policy and pstack boundary | DONE | RED: empty license; GREEN: 10 licensing tests, full `npm run check`, isolated clean/stale-output package with exactly 16 artifacts, and boolean/array bundle probes | `GR-20260901-S0.3-R1`; `29b7bd7` |
 | S0.4 | Characterize installed pstack capabilities and capture baseline human-time/flake/escape/cost metrics | DONE | RED→GREEN across four hardening bounces; 21 characterization tests, full `npm run check` with 35 tests, exact installed-manifest replay, and unchanged 16-artifact package | `GR-20260901-S0.4-R1`; `6f30846` |
 | S1.1 | Define task, intent, decision-packet, and run-state types | DONE | RED→GREEN across four hardening bounces; 5 domain tests, full `npm run check` with 40 tests, strict installed-package TypeScript/JavaScript consumers, and exact 19-artifact package | `GR-20260901-S1.1-R1`; `c4f3474` |
-| S1.2 | Implement deterministic run-state transitions and result precedence | AWAITING_REVIEW | RED→GREEN across five hardening bounces; 9 transition/precedence tests, full `npm run check` with 49 tests, exhaustive installed-package transition and 5,910-case precedence replay, and exact 22-artifact package | `GR-20260901-S1.2-R1`; pending |
+| S1.2 | Implement deterministic run-state transitions and result precedence | DONE | RED→GREEN across five hardening bounces; 9 transition/precedence tests, full `npm run check` with 49 tests, exhaustive installed-package transition and 5,910-case precedence replay, and exact 22-artifact package | `GR-20260901-S1.2-R1`; `d4b3543` |
 | S1.3 | Persist and reload run state atomically | NOT_STARTED | restart/recovery tests | pending |
 | S1.4 | Implement `run`, `status`, `resume`, and `explain` CLI flow | NOT_STARTED | CLI acceptance tests | pending |
 | S1.5 | Implement automatic repository discovery and intake decisions | NOT_STARTED | clear task normalizes intent; ambiguity emits one packet | pending |
@@ -135,3 +135,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `29b7bd7` | S0.3 Retemper provenance policy and pstack boundary | earlier cycle found stale-`dist` and boolean bundle gaps; resumed cycle 4 fixed them; 10 licensing tests, full `npm run check`, isolated clean/stale-output package with exactly 16 artifacts, and boolean/array bundle probes are green | `ACCEPT` (`GR-20260901-S0.3-R1`) |
 | `6f30846` | S0.4 pstack compatibility characterization and baseline | four hardening bounces closed symlink confinement, prototype-key, false-positive compatibility, manifest-binding, metric-cohort, and npm-reproduction gaps; 21 characterization tests, 35 full-suite tests, exact installed-manifest replay, and 16-artifact package are green | `ACCEPT` (`GR-20260901-S0.4-R1`) |
 | `c4f3474` | S1.1 core task, intent, decision-packet, digest, and run-state domain types | four hardening bounces closed run-state structural overlap, packet correlation/narrowing, aliased excess-property, digest-format/coercion, and empty-evidence gaps; 5 domain tests, 40 full-suite tests, strict installed-package consumers, and 19-artifact package are green | `ACCEPT` (`GR-20260901-S1.1-R1`) |
+| `d4b3543` | S1.2 deterministic run-state transitions and engineering-result precedence | five hardening bounces closed accepted-gap ordering, malformed-JavaScript readiness, accessor TOCTOU, sparse/overridden traversal, and cross-mutation gaps; 9 focused tests, 49 full-suite tests, exhaustive installed-package transition/precedence replay, and 22-artifact package are green | `ACCEPT` (`GR-20260901-S1.2-R1`) |
