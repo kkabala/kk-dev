@@ -8,6 +8,22 @@ Exoframe coordinates a software task from intake through independently verified 
 The durable lifecycle of one task from intake through implementation, verification, governance, merge, and delivery.
 _Avoid_: Session, workflow execution
 
+**Run state**:
+The single lifecycle position of a run. It is distinct from runner attempts, gate results, engineering readiness, merge mode, and repository governance.
+_Avoid_: Status, result, gate state
+
+**Task**:
+The requested user outcome together with the stable identity of its source.
+_Avoid_: Ticket, task envelope, repository facts
+
+**Intent**:
+The resolved goals, non-goals, constraints, and still-unresolved product decisions derived during run preparation.
+_Avoid_: Plan, implementation design
+
+**Decision packet**:
+The minimal, evidence-linked information required for one human decision or review; related blocking intake questions may be batched into one packet.
+_Avoid_: Question dump, raw logs, approval request
+
 **Run preparation**:
 The automatic derivation of task intent, non-goals, affected surfaces, risk, acceptance outcomes, gates, and writable scope before implementation begins.
 _Avoid_: Control planning, planning phase

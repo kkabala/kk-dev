@@ -37,7 +37,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | D0.3 | Clarify automatic run preparation and post-MVP integration profiles | DONE | terminology and cross-document scope audit; `npm run check`; balanced fences | `GR-20260901-D0.3-R1`; `4d9f237` |
 | S0.3 | Record Retemper reuse/provenance policy and pstack boundary | DONE | RED: empty license; GREEN: 10 licensing tests, full `npm run check`, isolated clean/stale-output package with exactly 16 artifacts, and boolean/array bundle probes | `GR-20260901-S0.3-R1`; `29b7bd7` |
 | S0.4 | Characterize installed pstack capabilities and capture baseline human-time/flake/escape/cost metrics | DONE | RED→GREEN across four hardening bounces; 21 characterization tests, full `npm run check` with 35 tests, exact installed-manifest replay, and unchanged 16-artifact package | `GR-20260901-S0.4-R1`; `6f30846` |
-| S1.1 | Define task, intent, decision-packet, and run-state types | NOT_STARTED | schema/type unit tests | pending |
+| S1.1 | Define task, intent, decision-packet, and run-state types | AWAITING_REVIEW | RED→GREEN across four hardening bounces; 5 domain tests, full `npm run check` with 40 tests, strict installed-package TypeScript/JavaScript consumers, and exact 19-artifact package | `GR-20260901-S1.1-R1`; pending |
 | S1.2 | Implement deterministic run-state transitions and result precedence | NOT_STARTED | transition-table tests | pending |
 | S1.3 | Persist and reload run state atomically | NOT_STARTED | restart/recovery tests | pending |
 | S1.4 | Implement `run`, `status`, `resume`, and `explain` CLI flow | NOT_STARTED | CLI acceptance tests | pending |
