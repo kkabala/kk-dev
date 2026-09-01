@@ -12,6 +12,26 @@ _Avoid_: Session, workflow execution
 The single lifecycle position of a run. It is distinct from runner attempts, gate results, engineering readiness, merge mode, and repository governance.
 _Avoid_: Status, result, gate state
 
+**Run transition**:
+A permitted move from one run state to another after one validated domain event.
+_Avoid_: Status update, arbitrary state assignment
+
+**Runner attempt**:
+One protected execution observation before authoritative history is evaluated into a gate result.
+_Avoid_: Test result, gate result
+
+**Gate result**:
+The authoritative evaluation of one gate from its accepted evidence and attempt history.
+_Avoid_: Runner attempt, engineering status
+
+**Engineering status**:
+The derived readiness of a candidate across required gates, live exceptions, and human or non-human blockers.
+_Avoid_: Run state, gate result
+
+**Merge mode**:
+Repository governance that selects human merge authorization or GitHub-native auto-merge after engineering readiness.
+_Avoid_: Run state, agent merge
+
 **Task**:
 The requested user outcome together with the stable identity of its source.
 _Avoid_: Ticket, task envelope, repository facts

@@ -21,5 +21,23 @@ export type {
   Task,
   TaskProductDecisionPacket,
 } from "./domain.ts";
+export {
+  deriveEngineeringStatus,
+  ENGINEERING_STATUSES,
+  GATE_RESULTS,
+  MERGE_MODES,
+  RUN_EVENTS,
+  RUNNER_ATTEMPTS,
+  transitionRunState,
+} from "./run-state.ts";
+export type {
+  EngineeringStatus,
+  EngineeringStatusInput,
+  GateResult,
+  MergeMode,
+  RequiredGateEvaluation,
+  RunnerAttempt,
+  RunEvent,
+} from "./run-state.ts";
 export { productInfo } from "./product.ts";
 export type { ProductInfo } from "./product.ts";
