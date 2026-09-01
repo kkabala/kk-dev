@@ -16,6 +16,10 @@ _Avoid_: Status, result, gate state
 A permitted move from one run state to another after one validated domain event.
 _Avoid_: Status update, arbitrary state assignment
 
+**Run snapshot**:
+A versioned durable record of one run's identity, lifecycle state, and revision at a committed point in time.
+_Avoid_: Cache, session dump, partial write
+
 **Runner attempt**:
 One protected execution observation before authoritative history is evaluated into a gate result.
 _Avoid_: Test result, gate result
