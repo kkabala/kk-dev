@@ -154,3 +154,8 @@ export { productInfo } from "./product.ts";
 export type { ProductInfo } from "./product.ts";
 export { checkPstackHealth } from "./pstack-health.ts";
 export type { PstackEngine, PstackHealth } from "./pstack-health.ts";
+export { buildAssignment } from "./pstack-assignment.ts";
+export type {
+  AssignmentCapabilities,
+  PstackAssignment,
+} from "./pstack-assignment.ts";

@@ -107,6 +107,11 @@ measures an accepted harness. An R2/R3 implementer cannot re-lock the oracle.
 The adapter inspects installed public pstack capabilities read-only. A missing
 required capability fails with an actionable error and never patches pstack.
 
+A pstack assignment is a translation of intent, risk, surfaces, contracts, and
+gates into the bounded adapter contract. It names writable scope and required
+verification IDs, sets `secrets: none`, and does not include goals, recipes, or
+secret values. Pstack remains unmodified.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

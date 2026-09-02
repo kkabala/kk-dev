@@ -159,3 +159,7 @@ _Avoid_: Implementer self-check, final PASS
 **Pstack health**:
 A read-only adapter check that the installed public pstack capabilities satisfy the required contract without modifying the engine.
 _Avoid_: Plugin install, pstack patch
+
+**Pstack assignment**:
+The bounded adapter contract Exoframe sends to pstack: intent and contract refs, surfaces, hypotheses, writable scope, required verification IDs, and no secrets or implementation recipe.
+_Avoid_: Plan, prompt, pstack patch, authoritative PASS
