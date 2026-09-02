@@ -62,6 +62,20 @@ export type {
   Measurement,
   ReuseDecision,
 } from "./evidence-store.ts";
+export {
+  applyIntendedRedOverlay,
+  evaluateCandidatePac,
+  evaluateIntendedRed,
+  lockPac,
+  parsePac,
+} from "./pac.ts";
+export type {
+  IntendedRedOverlay,
+  OverlayEntry,
+  PacOutcome,
+  PacRecord,
+  PacRunEvaluation,
+} from "./pac.ts";
 export { FilePreparationStore } from "./preparation-store.ts";
 export { classifyRisk } from "./risk.ts";
 export type { PathRisk, RiskDecision } from "./risk.ts";

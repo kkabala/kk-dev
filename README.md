@@ -88,6 +88,11 @@ ordinary local behavior may remain R1, unknown production is at least R2,
 and control-plane or trust-boundary changes are R3. An implementation agent
 cannot lower a computed tier.
 
+A Protected Acceptance Contract locks observable meaning before implementation.
+Intended red is a named outcome that fails on a PAC-only overlay of the base
+tree, never on candidate production files, crash, timeout, or import error. The
+same locked contract must then pass on the candidate.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

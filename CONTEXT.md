@@ -135,3 +135,11 @@ _Avoid_: Default skip, inferred R0
 **Risk tier**:
 The fail-up classification of a change from R0 to R3; signals may raise it and an implementation agent cannot lower it.
 _Avoid_: Severity, priority, review level
+
+**Protected Acceptance Contract**:
+The locked observable meaning of a task, including named outcomes, intended red, and oracle identity, recorded before implementation.
+_Avoid_: Test plan, ticket acceptance, informal checklist
+
+**Intended red**:
+A named PAC outcome that must fail on the base overlay while setup and the probe itself succeed.
+_Avoid_: Any red test, crash, timeout
