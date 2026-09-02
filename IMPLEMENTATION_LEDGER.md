@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S1.4 — Implement run, status, resume, and explain CLI flow`
+`S1.5 — Implement automatic repository discovery and intake decisions`
 
 ## Task ledger
 
@@ -40,7 +40,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S1.1 | Define task, intent, decision-packet, and run-state types | DONE | RED→GREEN across four hardening bounces; 5 domain tests, full `npm run check` with 40 tests, strict installed-package TypeScript/JavaScript consumers, and exact 19-artifact package | `GR-20260901-S1.1-R1`; `c4f3474` |
 | S1.2 | Implement deterministic run-state transitions and result precedence | DONE | RED→GREEN across five hardening bounces; 9 transition/precedence tests, full `npm run check` with 49 tests, exhaustive installed-package transition and 5,910-case precedence replay, and exact 22-artifact package | `GR-20260901-S1.2-R1`; `d4b3543` |
 | S1.3 | Persist and reload run state atomically | DONE | RED→GREEN across ten hardening cycles; 15 persistence tests, full `npm run check` with 64 tests, installed 24/28-writer and dead-owner recovery replays, and exact 25-artifact package | `GR-20260901-S1.3-R1`; `a30215b` |
-| S1.4 | Implement `run`, `status`, `resume`, and `explain` CLI flow | AWAITING_REVIEW | RED→GREEN across eleven hardening cycles and downstream returns, including the STORAGE HIGH `stage()` check-then-act race; 20 CLI, 7 catalog, and exact-initialization tests; full `npm run check` with 92 tests; exact 28-artifact installed package; workspace, hostile-storage, residual-journal, phase-race, concurrent creator/recovery, and exclusive-staging-across-commit replays | `GR-20260902-S1.4-R2`; pending commit |
+| S1.4 | Implement `run`, `status`, `resume`, and `explain` CLI flow | DONE | RED→GREEN across eleven hardening cycles and downstream returns, including the STORAGE HIGH `stage()` check-then-act race; 20 CLI, 7 catalog, and exact-initialization tests; full `npm run check` with 92 tests; exact 28-artifact installed package; workspace, hostile-storage, residual-journal, phase-race, concurrent creator/recovery, and exclusive-staging-across-commit replays | `GR-20260902-S1.4-R2`; `3796f41` |
 | S1.5 | Implement automatic repository discovery and intake decisions | NOT_STARTED | clear task normalizes intent; ambiguity emits one packet | pending |
 | S2.1 | Define protected gate-template schema and resolver | NOT_STARTED | schema and raw-command rejection tests | pending |
 | S2.2 | Implement evidence-key canonicalization | NOT_STARTED | golden-vector tests | pending |
@@ -137,3 +137,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `c4f3474` | S1.1 core task, intent, decision-packet, digest, and run-state domain types | four hardening bounces closed run-state structural overlap, packet correlation/narrowing, aliased excess-property, digest-format/coercion, and empty-evidence gaps; 5 domain tests, 40 full-suite tests, strict installed-package consumers, and 19-artifact package are green | `ACCEPT` (`GR-20260901-S1.1-R1`) |
 | `d4b3543` | S1.2 deterministic run-state transitions and engineering-result precedence | five hardening bounces closed accepted-gap ordering, malformed-JavaScript readiness, accessor TOCTOU, sparse/overridden traversal, and cross-mutation gaps; 9 focused tests, 49 full-suite tests, exhaustive installed-package transition/precedence replay, and 22-artifact package are green | `ACCEPT` (`GR-20260901-S1.2-R1`) |
 | `a30215b` | S1.3 atomic run-state persistence and restart recovery | ten hardening cycles closed atomicity, lock ownership/recovery, namespace, platform, immutable identity, call-boundary capture, and high-contention livelock gaps; 15 focused tests, 64 full-suite tests, installed 24/28-writer replays, and 25-artifact package are green | `ACCEPT` (`GR-20260901-S1.3-R1`) |
+| `3796f41` | S1.4 run, status, resume, and explain CLI with durable catalog | eleven hardening cycles closed workspace identity, residual-journal recovery, phase-race reconciliation, concurrent creator/recovery, and `stage()`/`commit` TOCTOU; 20 CLI and 7 catalog tests, 92 full-suite tests, and the 28-artifact package are green | `ACCEPT` (`GR-20260902-S1.4-R2`) |
