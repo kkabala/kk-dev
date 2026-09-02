@@ -95,3 +95,7 @@ _Avoid_: Test, check
 **Gate template**:
 The protected command definition used to execute a gate, selected by gate ID from templates accepted by the actual base.
 _Avoid_: Raw command, caller argv, shell string
+
+**Evidence key**:
+The identity of exactly what was checked, with which template and environment; ephemeral hostnames and timestamps are not part of it.
+_Avoid_: Measurement, log line, check name

@@ -27,6 +27,24 @@ export {
   normalizeTask,
 } from "./intake.ts";
 export type { IntakeDecision, RepositoryFacts } from "./intake.ts";
+export {
+  computeEvidenceKey,
+  isUncertainEvidenceKey,
+  serializeCanonical,
+} from "./evidence-key.ts";
+export type {
+  CertainNamedArtifact,
+  CertainRepositoryObject,
+  EvidenceGate,
+  EvidenceKey,
+  EvidenceKeyResult,
+  NamedArtifact,
+  RepositoryObject,
+  RunnerEnvironment,
+  UncertainEvidenceKey,
+  UncertainNamedArtifact,
+  UncertainRepositoryObject,
+} from "./evidence-key.ts";
 export { FilePreparationStore } from "./preparation-store.ts";
 export {
   GATE_CLASSES,
