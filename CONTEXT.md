@@ -143,3 +143,7 @@ _Avoid_: Test plan, ticket acceptance, informal checklist
 **Intended red**:
 A named PAC outcome that must fail on the base overlay while setup and the probe itself succeed.
 _Avoid_: Any red test, crash, timeout
+
+**Gate plan**:
+The deterministic required G0–G9 set derived from base policy, risk, surfaces, contracts, and delivery metadata.
+_Avoid_: CI job list, test matrix

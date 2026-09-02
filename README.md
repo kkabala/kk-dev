@@ -93,6 +93,11 @@ Intended red is a named outcome that fails on a PAC-only overlay of the base
 tree, never on candidate production files, crash, timeout, or import error. The
 same locked contract must then pass on the candidate.
 
+Gate selection is a pure function of base policy, risk, surfaces, contracts,
+and delivery metadata. Identical inputs produce the same G0–G9 plan. R2 and R3
+keep mapped hypotheses and require an independent verifier; a proposal cannot
+drop those hypotheses from the plan.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

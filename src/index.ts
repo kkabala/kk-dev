@@ -79,6 +79,8 @@ export type {
 export { FilePreparationStore } from "./preparation-store.ts";
 export { classifyRisk } from "./risk.ts";
 export type { PathRisk, RiskDecision } from "./risk.ts";
+export { deriveGates } from "./gates.ts";
+export type { GatePlan, PlannedGate } from "./gates.ts";
 export {
   DEFAULT_INFRASTRUCTURE_RETRIES,
   DEFAULT_MAX_ARTIFACT_BYTES,
