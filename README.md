@@ -67,6 +67,10 @@ rather than a product bounce. Screenshots and video without runner and commit
 provenance remain advisory; symlink escapes, writes outside sandbox roots, and
 oversized artifacts fail the gate.
 
+The evaluator is a pure function over required gates, measurements, GitHub
+state, and time. Advisory PASS and agent prose cannot satisfy a gate;
+authoritative FAIL wins; missing or mismatched evidence is never PASS.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

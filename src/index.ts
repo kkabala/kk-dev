@@ -45,6 +45,8 @@ export type {
   UncertainNamedArtifact,
   UncertainRepositoryObject,
 } from "./evidence-key.ts";
+export { evaluateTask } from "./evaluator.ts";
+export type { EvaluatedGate, TaskDecision } from "./evaluator.ts";
 export { FileEvidenceStore } from "./evidence-store.ts";
 export type {
   ConsultResult,
