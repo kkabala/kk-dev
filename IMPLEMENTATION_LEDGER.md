@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S4.1 — Define pstack capability manifest and health check`
+`S4.2 — Implement Exoframe-to-pstack assignment adapter`
 
 ## Task ledger
 
@@ -55,7 +55,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S3.4 | Implement deterministic G0–G9 derivation | DONE | RED→GREEN: 3 gate-plan tests; identical policy/surfaces/contracts/delivery serialize to the same plan; R2/R3 hypotheses remain after a weakening proposal; G0 and repository-required G1 always apply while G2–G9 follow surfaces, contracts, and delivery; full `npm run check` with 144 tests; exact 64-artifact installed package | `GR-20260902-S3.4-R1`; `861a43b` |
 | S3.5 | Implement acceptance-author and independent-verifier boundaries | DONE | RED→GREEN across R1 REJECT: R2/R3 must dispatch the independent verifier; findings are authoritative only from a dispatched verifier after the protected runner measures an accepted harness; 3 identity/separation tests; G2 author cannot implement and may write only PAC artifacts; R0 and behavior-preserving work without a new claim do not dispatch; full `npm run check` with 147 tests; exact 67-artifact installed package | `GR-20260902-S3.5-R2`; `e7ccdef` |
 | S3.6 | Implement `surfaces explain` and `policy check` CLI | DONE | RED→GREEN: 2 surface CLI tests plus help/malformed updates; `surfaces explain` reports covering surface and path category; `policy check` reports weakening when a proposal drops hypotheses/risk and stays clean otherwise; full `npm run check` with 149 tests; exact 67-artifact installed package | `GR-20260902-S3.6-R1`; `f42d438` |
-| S4.1 | Define pstack capability manifest and health check | AWAITING_REVIEW | RED→GREEN: 3 pstack-health tests; compatible public manifest reports supported capabilities without mutation; a missing required capability fails with an actionable adapter error and does not patch pstack; unmatched engine identity is a missing required capability; full `npm run check` with 152 tests; exact 70-artifact installed package | `GR-20260902-S4.1-R1`; pending commit |
+| S4.1 | Define pstack capability manifest and health check | DONE | RED→GREEN: 3 pstack-health tests; compatible public manifest reports supported capabilities without mutation; a missing required capability fails with an actionable adapter error and does not patch pstack; unmatched engine identity is a missing required capability; full `npm run check` with 152 tests; exact 70-artifact installed package | `GR-20260902-S4.1-R1`; `4d75f07` |
 | S4.2 | Implement Exoframe-to-pstack assignment adapter | NOT_STARTED | contract translation tests | pending |
 | S4.3 | Collect candidate output without trusting advisory PASS | NOT_STARTED | trust-boundary tests | pending |
 | S4.4 | Implement repair bounces and repeated-fingerprint escalation | NOT_STARTED | bounce-loop acceptance tests | pending |
@@ -152,3 +152,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `861a43b` | S3.4 deterministic G0–G9 derivation | identical inputs serialize to the same plan; R2/R3 hypotheses remain after a weakening proposal; G0 and required G1 always apply while G2–G9 follow surfaces, contracts, and delivery; 3 gate-plan tests, 144 full-suite tests, and the 64-artifact package are green | `ACCEPT` (`GR-20260902-S3.4-R1`) |
 | `e7ccdef` | S3.5 acceptance-author and independent-verifier boundaries | R1 closed skippable R2 verifier dispatch; G2 author cannot implement and may write only PAC artifacts; R0/behavior-preserving without a new claim do not dispatch; verifier prose stays advisory until the protected runner measures an accepted harness; 3 identity tests, 147 full-suite tests, and the 67-artifact package are green | `ACCEPT` (`GR-20260902-S3.5-R2`) |
 | `f42d438` | S3.6 surfaces explain and policy check CLI | surfaces explain reports covering surface and path category; policy check reports weakening when a proposal drops hypotheses or risk; 2 surface CLI tests, 149 full-suite tests, and the 67-artifact package are green | `ACCEPT` (`GR-20260902-S3.6-R1`) |
+| `4d75f07` | S4.1 pstack capability manifest and health check | compatible public manifest reports supported capabilities without mutation; a missing required capability fails with an actionable adapter error and does not patch pstack; 3 pstack-health tests, 152 full-suite tests, and the 70-artifact package are green | `ACCEPT` (`GR-20260902-S4.1-R1`) |
