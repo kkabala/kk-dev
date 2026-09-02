@@ -991,6 +991,11 @@ test("command errors are actionable and never fabricate a run", async (t) => {
     ["explain", "one", "two"],
     ["resume"],
     ["resume", "one", "two"],
+    ["surfaces"],
+    ["surfaces", "explain"],
+    ["surfaces", "explain", "src/../secret.ts"],
+    ["policy"],
+    ["policy", "check", "extra"],
   ] as const;
   for (const args of malformedCommands) {
     const result = await invokeCli(stateRoot, checkout, args);

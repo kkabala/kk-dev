@@ -36,6 +36,7 @@ import type { RunCatalogRecord } from "./run-catalog.ts";
 import { RUN_EVENTS, transitionRunState } from "./run-state.ts";
 import { FileRunStateStore } from "./run-state-store.ts";
 import type { PersistedRunState } from "./run-state-store.ts";
+import { matchSurfaces } from "./surfaces.ts";
 
 const execFileAsync = promisify(execFile);
 
@@ -74,6 +75,8 @@ const HELP = [
   "  exoframe resume <task-id>",
   "  exoframe evidence show <gate-id>",
   "  exoframe gate run --task <task-id> --gate <gate-id>",
+  "  exoframe surfaces explain <path>",
+  "  exoframe policy check",
   "  exoframe --help",
   "  exoframe --version",
 ].join("\n");
@@ -298,6 +301,106 @@ async function loadTemplateCatalog(checkoutRoot: string): Promise<unknown> {
   return JSON.parse(contents) as unknown;
 }
 
+async function loadSurfaceCatalog(checkoutRoot: string): Promise<unknown> {
+  const catalogPath = path.join(checkoutRoot, ".exoframe", "surfaces.json");
+  try {
+    const contents = await readRegularFile(catalogPath);
+    return JSON.parse(contents) as unknown;
+  } catch {
+    throw new TypeError("Invalid surface catalog");
+  }
+}
+
+async function loadSurfaceProposal(checkoutRoot: string): Promise<unknown> {
+  const proposalPath = path.join(
+    checkoutRoot,
+    ".exoframe",
+    "proposals",
+    "surfaces.json",
+  );
+  try {
+    const contents = await readRegularFile(proposalPath);
+    return JSON.parse(contents) as unknown;
+  } catch (error) {
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === "ENOENT"
+    ) {
+      return null;
+    }
+    throw new TypeError("Invalid surface proposal");
+  }
+}
+
+function isRelativeRepoPath(token: string): boolean {
+  if (token.length === 0 || token.includes("\0") || token.startsWith("/") || token.includes("\\")) {
+    return false;
+  }
+  const segments = token.split("/");
+  return (
+    segments.length > 0 &&
+    segments.every((segment) => segment !== "" && segment !== "." && segment !== "..")
+  );
+}
+
+function representativeDiffPaths(catalog: unknown): string[] {
+  if (typeof catalog !== "object" || catalog === null || Array.isArray(catalog)) {
+    return [];
+  }
+  const descriptor = Object.getOwnPropertyDescriptor(catalog, "surfaces");
+  if (descriptor === undefined || !("value" in descriptor) || !Array.isArray(descriptor.value)) {
+    return [];
+  }
+  const paths: string[] = [];
+  const seen = new Set<string>();
+  const surfaces = descriptor.value;
+  const length = surfaces.length;
+  for (let index = 0; index < length; index += 1) {
+    const surfaceDescriptor = Object.getOwnPropertyDescriptor(surfaces, index);
+    if (
+      surfaceDescriptor === undefined ||
+      !("value" in surfaceDescriptor) ||
+      typeof surfaceDescriptor.value !== "object" ||
+      surfaceDescriptor.value === null ||
+      Array.isArray(surfaceDescriptor.value)
+    ) {
+      continue;
+    }
+    const pathDescriptor = Object.getOwnPropertyDescriptor(
+      surfaceDescriptor.value,
+      "paths",
+    );
+    if (
+      pathDescriptor === undefined ||
+      !("value" in pathDescriptor) ||
+      !Array.isArray(pathDescriptor.value)
+    ) {
+      continue;
+    }
+    const patterns = pathDescriptor.value;
+    const patternLength = patterns.length;
+    for (let patternIndex = 0; patternIndex < patternLength; patternIndex += 1) {
+      const patternDescriptor = Object.getOwnPropertyDescriptor(patterns, patternIndex);
+      if (
+        patternDescriptor === undefined ||
+        !("value" in patternDescriptor) ||
+        typeof patternDescriptor.value !== "string"
+      ) {
+        continue;
+      }
+      const token = patternDescriptor.value.replaceAll("**", "x").replaceAll("*", "x");
+      if (!isRelativeRepoPath(token) || seen.has(token)) {
+        continue;
+      }
+      seen.add(token);
+      paths.push(token);
+    }
+  }
+  return paths;
+}
+
 async function discoverMeasuredSha(checkoutRoot: string): Promise<string> {
   try {
     const revision = await execFileAsync(
@@ -491,6 +594,57 @@ async function evidenceShowCommand(
     }),
   );
   return 0;
+}
+
+async function surfacesExplainCommand(
+  args: readonly string[],
+  io: CliIo,
+  services: CliServices,
+): Promise<number> {
+  const filePath = args[1] ?? "";
+  const catalog = await loadSurfaceCatalog(services.checkoutRoot);
+  const decision = matchSurfaces({
+    base_policy: catalog,
+    diff: { paths: [filePath] },
+    proposal: null,
+  });
+  const classification = decision.classifications[0];
+  if (classification === undefined) {
+    throw new TypeError("Invalid surface catalog");
+  }
+  printJson(
+    io,
+    Object.freeze({
+      schema_version: 1,
+      path: classification.path,
+      category: classification.category,
+      surfaces: decision.surfaces,
+      policy_weakening: decision.policy_weakening,
+    }),
+  );
+  return 0;
+}
+
+async function policyCheckCommand(
+  io: CliIo,
+  services: CliServices,
+): Promise<number> {
+  const catalog = await loadSurfaceCatalog(services.checkoutRoot);
+  const proposal = await loadSurfaceProposal(services.checkoutRoot);
+  const decision = matchSurfaces({
+    base_policy: catalog,
+    diff: { paths: representativeDiffPaths(catalog) },
+    proposal,
+  });
+  printJson(
+    io,
+    Object.freeze({
+      schema_version: 1,
+      policy_weakening: decision.policy_weakening,
+      surfaces: decision.surfaces,
+    }),
+  );
+  return decision.policy_weakening ? 1 : 0;
 }
 
 function toView(
@@ -920,6 +1074,23 @@ function validateCommandArguments(
       return args.length === 2 && gateIdPattern.test(args[1] ?? "")
         ? null
         : "evidence show requires exactly one gate ID.";
+    case "surfaces":
+      if (args.some(isRawCliToken)) {
+        return RAW_COMMAND;
+      }
+      if ((args[0] ?? "") !== "explain") {
+        return "surfaces requires the explain subcommand.";
+      }
+      return args.length === 2 && isRelativeRepoPath(args[1] ?? "")
+        ? null
+        : "surfaces explain requires exactly one repository-relative path.";
+    case "policy":
+      if (args.some(isRawCliToken)) {
+        return RAW_COMMAND;
+      }
+      return args.length === 1 && args[0] === "check"
+        ? null
+        : "policy requires the check subcommand.";
     default:
       throw new TypeError("Unsupported CLI command");
   }
@@ -944,7 +1115,7 @@ export async function runCli(
 
   const [command, ...commandArgs] = args;
   if (
-    !["run", "status", "explain", "resume", "gate", "evidence"].includes(
+    !["run", "status", "explain", "resume", "gate", "evidence", "surfaces", "policy"].includes(
       command ?? "",
     )
   ) {
@@ -979,6 +1150,10 @@ export async function runCli(
         return await gateRunCommand(commandArgs, io, services);
       case "evidence":
         return await evidenceShowCommand(commandArgs, io, services);
+      case "surfaces":
+        return await surfacesExplainCommand(commandArgs, io, services);
+      case "policy":
+        return await policyCheckCommand(io, services);
       default:
         throw new TypeError("Unsupported CLI command");
     }
