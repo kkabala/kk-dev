@@ -98,6 +98,12 @@ and delivery metadata. Identical inputs produce the same G0–G9 plan. R2 and R3
 keep mapped hypotheses and require an independent verifier; a proposal cannot
 drop those hypotheses from the plan.
 
+When G2 is required, a distinct acceptance author writes only PAC and probe
+artifacts and cannot become the implementer for that task. R0 and
+behavior-preserving work without a new acceptance claim do not dispatch that
+role. Independent-verifier prose stays advisory until the protected runner
+measures an accepted harness. An R2/R3 implementer cannot re-lock the oracle.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

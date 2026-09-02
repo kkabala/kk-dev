@@ -147,3 +147,11 @@ _Avoid_: Any red test, crash, timeout
 **Gate plan**:
 The deterministic required G0–G9 set derived from base policy, risk, surfaces, contracts, and delivery metadata.
 _Avoid_: CI job list, test matrix
+
+**Acceptance author**:
+The independent machine role that writes PAC and probe artifacts before implementation and cannot become the implementer for that task.
+_Avoid_: Human reviewer, tester, implementer
+
+**Independent verifier**:
+The R2/R3 role that attacks hypotheses and proposes harnesses; its prose stays advisory until the protected runner measures an accepted harness.
+_Avoid_: Implementer self-check, final PASS

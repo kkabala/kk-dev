@@ -79,6 +79,12 @@ export type {
 export { FilePreparationStore } from "./preparation-store.ts";
 export { classifyRisk } from "./risk.ts";
 export type { PathRisk, RiskDecision } from "./risk.ts";
+export { resolveVerificationBoundaries } from "./roles.ts";
+export type {
+  AgentIdentities,
+  HarnessProposal,
+  VerificationBoundaries,
+} from "./roles.ts";
 export { deriveGates } from "./gates.ts";
 export type { GatePlan, PlannedGate } from "./gates.ts";
 export {
