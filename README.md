@@ -83,6 +83,11 @@ non-production; uncertain paths fail upward to production treatment. Unknown
 production code receives provisional R2 coverage. A proposal may add coverage
 or raise risk, but it cannot drop hypotheses, paths, or a risk floor.
 
+Risk fails upward from R0 to R3. Declared documentation may remain R0,
+ordinary local behavior may remain R1, unknown production is at least R2,
+and control-plane or trust-boundary changes are R3. An implementation agent
+cannot lower a computed tier.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

@@ -63,6 +63,8 @@ export type {
   ReuseDecision,
 } from "./evidence-store.ts";
 export { FilePreparationStore } from "./preparation-store.ts";
+export { classifyRisk } from "./risk.ts";
+export type { PathRisk, RiskDecision } from "./risk.ts";
 export {
   DEFAULT_INFRASTRUCTURE_RETRIES,
   DEFAULT_MAX_ARTIFACT_BYTES,

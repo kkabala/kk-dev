@@ -131,3 +131,7 @@ _Avoid_: Feature area, module, component
 **Provisional R2**:
 Coverage assigned when a production path does not match a declared surface; it raises unknown shipped behavior to R2 rather than leaving it unclassified.
 _Avoid_: Default skip, inferred R0
+
+**Risk tier**:
+The fail-up classification of a change from R0 to R3; signals may raise it and an implementation agent cannot lower it.
+_Avoid_: Severity, priority, review level
