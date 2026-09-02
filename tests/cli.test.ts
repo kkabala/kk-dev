@@ -29,10 +29,10 @@ function captureIo(): CapturedIo {
   };
 }
 
-test("--help explains the available scaffold interface", () => {
+test("--help explains the available task lifecycle interface", async () => {
   const capture = captureIo();
 
-  const exitCode = runCli(["--help"], capture.io);
+  const exitCode = await runCli(["--help"], capture.io);
 
   assert.equal(exitCode, 0);
   assert.deepEqual(capture.stderr, []);
@@ -40,27 +40,31 @@ test("--help explains the available scaffold interface", () => {
     [
       "Exoframe — autonomous delivery around pstack",
       "",
-      "Usage: exoframe [--help] [--version]",
-      "",
-      "Task commands are introduced by the Stage 1 run-state implementation.",
+      "Usage:",
+      "  exoframe run <task text>",
+      "  exoframe status [task-id]",
+      "  exoframe explain [task-id]",
+      "  exoframe resume <task-id>",
+      "  exoframe --help",
+      "  exoframe --version",
     ].join("\n"),
   ]);
 });
 
-test("--version prints the package version", () => {
+test("--version prints the package version", async () => {
   const capture = captureIo();
 
-  const exitCode = runCli(["--version"], capture.io);
+  const exitCode = await runCli(["--version"], capture.io);
 
   assert.equal(exitCode, 0);
   assert.deepEqual(capture.stderr, []);
   assert.deepEqual(capture.stdout, ["0.0.0"]);
 });
 
-test("unknown arguments fail with an actionable message", () => {
+test("unknown arguments fail with an actionable message", async () => {
   const capture = captureIo();
 
-  const exitCode = runCli(["unknown"], capture.io);
+  const exitCode = await runCli(["unknown"], capture.io);
 
   assert.equal(exitCode, 2);
   assert.deepEqual(capture.stdout, []);

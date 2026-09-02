@@ -20,6 +20,14 @@ _Avoid_: Status update, arbitrary state assignment
 A versioned durable record of one run's identity, lifecycle state, and revision at a committed point in time.
 _Avoid_: Cache, session dump, partial write
 
+**Run catalog**:
+The durable association between a task's immutable direct-input context and the run that owns its lifecycle state.
+_Avoid_: Run state, task list, cache
+
+**Workspace identity**:
+The canonical checkout root plus root and Git-marker filesystem identity used to isolate external control-plane state from other or replacement checkouts.
+_Avoid_: Repository facts, working-directory string, remote repository ID
+
 **Runner attempt**:
 One protected execution observation before authoritative history is evaluated into a gate result.
 _Avoid_: Test result, gate result

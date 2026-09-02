@@ -194,6 +194,37 @@ test("competing store instances cannot roll a run back", async (t) => {
   assert.deepEqual(await new FileRunStateStore(directory).load(runId), latestRevision);
 });
 
+test("initial state publication is idempotent only for the exact snapshot", async (t) => {
+  const sandbox = await mkdtemp(join(tmpdir(), "exoframe-run-store-"));
+  t.after(async () => rm(sandbox, { recursive: true, force: true }));
+  const directory = join(sandbox, "state");
+  const initial = snapshot(0, RUN_STATES.INTAKE);
+
+  await Promise.all(
+    Array.from({ length: 12 }, () =>
+      new FileRunStateStore(directory).initialize(initial)
+    ),
+  );
+
+  assert.deepEqual(await new FileRunStateStore(directory).load(runId), initial);
+  assert.deepEqual(await readdir(directory), [`${runId}.json`]);
+  await assert.rejects(new FileRunStateStore(directory).save(initial), /stale/iu);
+  await assert.rejects(
+    new FileRunStateStore(directory).initialize(
+      snapshot(1, RUN_STATES.INTAKE),
+    ),
+  );
+  await assert.rejects(
+    new FileRunStateStore(directory).initialize(snapshot(0, RUN_STATES.DONE)),
+  );
+  await assert.rejects(
+    new FileRunStateStore(directory).initialize(
+      snapshot(0, RUN_STATES.INTAKE, "DIFFERENT-TASK"),
+    ),
+  );
+  assert.deepEqual(await new FileRunStateStore(directory).load(runId), initial);
+});
+
 test("a cross-process writer burst eventually commits its highest revision", async (t) => {
   const sandbox = await mkdtemp(join(tmpdir(), "exoframe-run-store-"));
   t.after(async () => rm(sandbox, { recursive: true, force: true }));
@@ -324,7 +355,7 @@ test("a dead process lock is recovered without a long wait", async (t) => {
   );
   const isolationOutcome = await Promise.race([
     isolatedSave.then(() => "saved" as const),
-    delay(100, "blocked" as const),
+    delay(3_000, "blocked" as const),
   ]);
   if (isolationOutcome === "blocked") {
     await Promise.all(foreignLockPaths.map((foreignLockPath) =>

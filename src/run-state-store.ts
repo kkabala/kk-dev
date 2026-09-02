@@ -174,7 +174,30 @@ export class FileRunStateStore {
       return Promise.reject(error);
     }
 
-    const operation = this.#pendingSave.then(() => this.#saveNow(normalized));
+    const operation = this.#pendingSave.then(() =>
+      this.#saveNow(normalized, false)
+    );
+    this.#pendingSave = operation.catch(() => undefined);
+    return operation;
+  }
+
+  initialize(snapshot: PersistedRunState): Promise<void> {
+    let normalized: PersistedRunState;
+    try {
+      normalized = normalizeSnapshot(snapshot);
+      if (
+        normalized.state !== RUN_STATES.INTAKE ||
+        normalized.revision !== 0
+      ) {
+        throw new TypeError("Invalid initial run state");
+      }
+    } catch (error) {
+      return Promise.reject(error);
+    }
+
+    const operation = this.#pendingSave.then(() =>
+      this.#saveNow(normalized, true)
+    );
     this.#pendingSave = operation.catch(() => undefined);
     return operation;
   }
@@ -228,12 +251,15 @@ export class FileRunStateStore {
     }
   }
 
-  async #saveNow(normalized: PersistedRunState): Promise<void> {
+  async #saveNow(
+    normalized: PersistedRunState,
+    acceptIdentical: boolean,
+  ): Promise<void> {
     await this.#prepareDirectory(true);
     const lockHandle = await this.#acquireLock(normalized.run_id);
     let operationError: unknown;
     try {
-      await this.#commitLocked(normalized);
+      await this.#commitLocked(normalized, acceptIdentical);
     } catch (error) {
       operationError = error;
     }
@@ -250,14 +276,23 @@ export class FileRunStateStore {
     }
   }
 
-  async #commitLocked(normalized: PersistedRunState): Promise<void> {
+  async #commitLocked(
+    normalized: PersistedRunState,
+    acceptIdentical: boolean,
+  ): Promise<void> {
     const current = await this.#loadValidated(normalized.run_id);
     if (current !== null) {
       if (normalized.task_id !== current.task_id) {
         throw new Error(
           `Run ${normalized.run_id} belongs to task ${current.task_id}, ` +
-            `not ${normalized.task_id}`,
+          `not ${normalized.task_id}`,
         );
+      }
+      if (
+        acceptIdentical &&
+        serializeSnapshot(normalized) === serializeSnapshot(current)
+      ) {
+        return;
       }
       if (normalized.revision <= current.revision) {
         throw new Error(
