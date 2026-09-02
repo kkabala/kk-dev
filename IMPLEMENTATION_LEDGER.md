@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S2.5 — Implement pure evaluator and engineering-status precedence`
+`S2.6 — Implement accepted-gap and override lifecycle`
 
 ## Task ledger
 
@@ -46,7 +46,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S2.2 | Implement evidence-key canonicalization | DONE | RED→GREEN: 5 evidence-key tests; golden canonical vectors; hostname/timestamp excluded; uncertain selection yields no key; full `npm run check` with 108 tests; exact 40-artifact installed package | `GR-20260902-S2.2-R1`; `6d88ad6` |
 | S2.3 | Implement append-only evidence store, reuse, and FLAKY history | DONE | RED→GREEN: 5 evidence-store tests; immutable/idempotent append; exact-key reuse without rewrite; uncertain/mismatched keys cannot satisfy; mixed outcomes sticky FLAKY; full `npm run check` with 113 tests; exact 43-artifact installed package | `GR-20260902-S2.3-R1`; `4683c45` |
 | S2.4 | Implement runner attempt parsing, retries, redaction, and artifact policy | DONE | RED→GREEN across R1–R2 REJECT: INFRA_ERROR only from sandbox/execute/null exit; completed-process garbage stdout is PRODUCT_FAIL not retries; 5 protected-runner tests; secrets redacted before hash; unbound screenshots/video stay advisory; symlink/escape/oversize fail the gate; two exhausted infra retries produce BLOCKED not a bounce; raw commands rejected; full `npm run check` with 118 tests; exact 46-artifact installed package | `GR-20260902-S2.4-R3`; `f7a0636` |
-| S2.5 | Implement pure evaluator and engineering-status precedence | AWAITING_REVIEW | RED→GREEN across R1 REJECT: timeout displaces PASS; exception does not rewrite FAIL; gate id matches evidence key; 8 evaluator tests; full `npm run check` with 126 tests; exact 49-artifact installed package | `GR-20260902-S2.5-R2`; pending commit |
+| S2.5 | Implement pure evaluator and engineering-status precedence | DONE | RED→GREEN across R1 REJECT: timeout displaces PASS; exception does not rewrite FAIL; gate id matches evidence key; 8 evaluator tests; full `npm run check` with 126 tests; exact 49-artifact installed package | `GR-20260902-S2.5-R2`; `055418a` |
 | S2.6 | Implement accepted-gap and override lifecycle | NOT_STARTED | scenarios 27–28; expiry, compensating evidence, forced human merge | pending |
 | S2.7 | Implement protected `gate run` and advisory `evidence show` CLI | NOT_STARTED | raw-command rejection and evidence-display tests | pending |
 | S3.1 | Define path categories and surface catalog | NOT_STARTED | classification, provisional R2, monotone coverage/hypothesis tests | pending |
@@ -143,3 +143,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `6d88ad6` | S2.2 evidence-key canonicalization | golden input/environment vectors; hostname/timestamp excluded; uncertain selection is not reusable; 5 evidence-key tests, 108 full-suite tests, and the 40-artifact package are green | `ACCEPT` (`GR-20260902-S2.2-R1`) |
 | `4683c45` | S2.3 append-only evidence store, reuse, and FLAKY history | immutable/idempotent append; exact-key reuse without rewrite; mixed product outcomes stay FLAKY; 5 evidence-store tests, 113 full-suite tests, and the 43-artifact package are green | `ACCEPT` (`GR-20260902-S2.3-R1`) |
 | `f7a0636` | S2.4 runner attempt parsing, retries, redaction, and artifact policy | R1/R2 closed stdout-minted infra retries; secrets redacted before hash; unbound screenshots stay advisory; two exhausted infra retries are BLOCKED not a bounce; 5 protected-runner tests, 118 full-suite tests, and the 46-artifact package are green | `ACCEPT` (`GR-20260902-S2.4-R3`) |
+| `055418a` | S2.5 pure evaluator and engineering-status precedence | same measurements yield the same status; advisory prose cannot PASS; timeout displaces PASS; exceptions do not rewrite FAIL; 8 evaluator tests, 126 full-suite tests, and the 49-artifact package are green | `ACCEPT` (`GR-20260902-S2.5-R2`) |
