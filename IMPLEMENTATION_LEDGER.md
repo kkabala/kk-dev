@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S2.3 — Implement append-only evidence store, reuse, and FLAKY history`
+`S2.4 — Implement runner attempt parsing, retries, redaction, and artifact policy`
 
 ## Task ledger
 
@@ -44,7 +44,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S1.5 | Implement automatic repository discovery and intake decisions | DONE | RED→GREEN: 22 CLI, 4 intake, and 1 preparation-store tests; clear task normalizes intent without asking for repository facts; ambiguity emits one packet and stays `WAITING_FOR_INTAKE_DECISION`; full `npm run check` with 99 tests; exact 34-artifact installed package | `GR-20260902-S1.5-R1`; `b24190c` |
 | S2.1 | Define protected gate-template schema and resolver | DONE | RED→GREEN: 4 gate-template tests; protected argv schema; raw command text and caller argv cannot resolve a protected command; full `npm run check` with 103 tests; exact 37-artifact installed package | `GR-20260902-S2.1-R1`; `92ac961` |
 | S2.2 | Implement evidence-key canonicalization | DONE | RED→GREEN: 5 evidence-key tests; golden canonical vectors; hostname/timestamp excluded; uncertain selection yields no key; full `npm run check` with 108 tests; exact 40-artifact installed package | `GR-20260902-S2.2-R1`; `6d88ad6` |
-| S2.3 | Implement append-only evidence store, reuse, and FLAKY history | AWAITING_REVIEW | RED→GREEN: 5 evidence-store tests; immutable/idempotent append; exact-key reuse without rewrite; uncertain/mismatched keys cannot satisfy; mixed outcomes sticky FLAKY; full `npm run check` with 113 tests; exact 43-artifact installed package | `GR-20260902-S2.3-R1`; pending commit |
+| S2.3 | Implement append-only evidence store, reuse, and FLAKY history | DONE | RED→GREEN: 5 evidence-store tests; immutable/idempotent append; exact-key reuse without rewrite; uncertain/mismatched keys cannot satisfy; mixed outcomes sticky FLAKY; full `npm run check` with 113 tests; exact 43-artifact installed package | `GR-20260902-S2.3-R1`; `4683c45` |
 | S2.4 | Implement runner attempt parsing, retries, redaction, and artifact policy | NOT_STARTED | runner boundary tests | pending |
 | S2.5 | Implement pure evaluator and engineering-status precedence | NOT_STARTED | gate/status algebra tests | pending |
 | S2.6 | Implement accepted-gap and override lifecycle | NOT_STARTED | scenarios 27–28; expiry, compensating evidence, forced human merge | pending |
@@ -141,3 +141,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `b24190c` | S1.5 automatic repository discovery and intake decisions | clear tasks normalize intent without asking for repository facts; blocking product choices emit one packet and wait; 22 CLI, 4 intake, and 1 preparation-store tests, 99 full-suite tests, and the 34-artifact package are green | `ACCEPT` (`GR-20260902-S1.5-R1`) |
 | `92ac961` | S2.1 protected gate-template schema and resolver | argv templates resolve by gate ID; raw command text and caller argv cannot mint a protected command; 4 gate-template tests, 103 full-suite tests, and the 37-artifact package are green | `ACCEPT` (`GR-20260902-S2.1-R1`) |
 | `6d88ad6` | S2.2 evidence-key canonicalization | golden input/environment vectors; hostname/timestamp excluded; uncertain selection is not reusable; 5 evidence-key tests, 108 full-suite tests, and the 40-artifact package are green | `ACCEPT` (`GR-20260902-S2.2-R1`) |
+| `4683c45` | S2.3 append-only evidence store, reuse, and FLAKY history | immutable/idempotent append; exact-key reuse without rewrite; mixed product outcomes stay FLAKY; 5 evidence-store tests, 113 full-suite tests, and the 43-artifact package are green | `ACCEPT` (`GR-20260902-S2.3-R1`) |
