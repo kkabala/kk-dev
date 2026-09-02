@@ -22,6 +22,13 @@ export type {
   TaskProductDecisionPacket,
 } from "./domain.ts";
 export {
+  discoverRepositoryFacts,
+  isIntakePacket,
+  normalizeTask,
+} from "./intake.ts";
+export type { IntakeDecision, RepositoryFacts } from "./intake.ts";
+export { FilePreparationStore } from "./preparation-store.ts";
+export {
   deriveEngineeringStatus,
   ENGINEERING_STATUSES,
   GATE_RESULTS,

@@ -39,11 +39,13 @@ node dist/bin.js explain <task-id>
 node dist/bin.js resume <task-id>
 ```
 
-`run` emits the new task and its initial `INTAKE` checkpoint as JSON. `status`
-emits the same durable task/run view, while `explain` renders the current state
-and next action for a person. In the current Stage 1 slice, `resume` reloads and
-reports a non-completed checkpoint without advancing it; automatic intake is
-introduced by the next implementation slice.
+`run` emits the new task, its durable checkpoint, and the automatic intake
+result as JSON. A clear requested outcome normalizes into intent and remains
+`INTAKE`. A blocking product choice emits one decision packet and moves the run
+to `WAITING_FOR_INTAKE_DECISION`. `status` emits the same durable task/run view,
+while `explain` renders the current state and next action for a person. `resume`
+reloads a non-completed checkpoint and continues unfinished intake without
+starting implementation; later slices add automatic gates and pstack assignment.
 
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git

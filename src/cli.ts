@@ -5,13 +5,20 @@ import path from "node:path";
 import process from "node:process";
 
 import { parseSha256Digest, RUN_STATES } from "./domain.ts";
-import type { Task } from "./domain.ts";
+import type { Intent, Task, TaskProductDecisionPacket } from "./domain.ts";
+import {
+  discoverRepositoryFacts,
+  isIntakePacket,
+  normalizeTask,
+} from "./intake.ts";
+import { FilePreparationStore } from "./preparation-store.ts";
 import { productInfo } from "./product.ts";
 import {
   FileRunCatalog,
   isRunCatalogIdentifier,
 } from "./run-catalog.ts";
 import type { RunCatalogRecord } from "./run-catalog.ts";
+import { RUN_EVENTS, transitionRunState } from "./run-state.ts";
 import { FileRunStateStore } from "./run-state-store.ts";
 import type { PersistedRunState } from "./run-state-store.ts";
 
@@ -23,10 +30,14 @@ export type CliIo = Readonly<{
 type RunView = Readonly<{
   task: Task;
   run: PersistedRunState;
+  intent?: Intent;
+  packet?: TaskProductDecisionPacket;
 }>;
 
 type CliServices = Readonly<{
   catalog: FileRunCatalog;
+  checkoutRoot: string;
+  preparation: FilePreparationStore;
   states: FileRunStateStore;
 }>;
 
@@ -144,12 +155,15 @@ async function defaultStateRoot(): Promise<string> {
 }
 
 async function createServices(): Promise<CliServices> {
+  const boundary = await findCheckoutRoot(process.cwd());
   const configuredRoot = process.env.EXOFRAME_STATE_ROOT;
   const stateRoot = configuredRoot === undefined
     ? await defaultStateRoot()
     : configuredRoot;
   return {
     catalog: new FileRunCatalog(stateRoot),
+    checkoutRoot: boundary.root,
+    preparation: new FilePreparationStore(stateRoot),
     states: new FileRunStateStore(stateRoot),
   };
 }
@@ -192,8 +206,31 @@ function printJson(io: CliIo, value: unknown): void {
 function toView(
   record: RunCatalogRecord,
   run: PersistedRunState,
+  extras: Readonly<{
+    intent?: Intent;
+    packet?: TaskProductDecisionPacket;
+  }> = {},
 ): RunView {
-  return Object.freeze({ task: record.task, run });
+  return Object.freeze({
+    task: record.task,
+    run,
+    ...(extras.intent === undefined ? {} : { intent: extras.intent }),
+    ...(extras.packet === undefined ? {} : { packet: extras.packet }),
+  });
+}
+
+async function loadPreparation(
+  services: CliServices,
+  taskId: string,
+): Promise<Readonly<{ intent?: Intent; packet?: TaskProductDecisionPacket }>> {
+  const [intent, packet] = await Promise.all([
+    services.preparation.loadIntent(taskId),
+    services.preparation.loadPacket(taskId),
+  ]);
+  return {
+    ...(intent === null ? {} : { intent }),
+    ...(packet === null ? {} : { packet }),
+  };
 }
 
 async function loadView(
@@ -208,7 +245,7 @@ async function loadView(
   if (run === null || run.task_id !== record.task.task_id) {
     throw new Error(`Corrupt durable run context for task ${taskId}`);
   }
-  return toView(record, run);
+  return toView(record, run, await loadPreparation(services, taskId));
 }
 
 async function listViews(services: CliServices): Promise<readonly RunView[]> {
@@ -220,7 +257,9 @@ async function listViews(services: CliServices): Promise<readonly RunView[]> {
         `Corrupt durable run context for task ${record.task.task_id}`,
       );
     }
-    views.push(toView(record, run));
+    views.push(
+      toView(record, run, await loadPreparation(services, record.task.task_id)),
+    );
   }
   return Object.freeze(views);
 }
@@ -260,7 +299,58 @@ async function startRun(
   });
   await ensureInitialRun(services.states, run);
   const record = await services.catalog.commit(task.task_id);
-  return toView(record, run);
+  return prepareRun(services, record, run);
+}
+
+async function prepareRun(
+  services: CliServices,
+  record: RunCatalogRecord,
+  run: PersistedRunState,
+): Promise<RunView> {
+  const existing = await loadPreparation(services, record.task.task_id);
+  if (existing.intent !== undefined) {
+    return toView(record, run, existing);
+  }
+  if (existing.packet !== undefined) {
+    if (run.state !== RUN_STATES.INTAKE) {
+      return toView(record, run, existing);
+    }
+    const advanced = Object.freeze({
+      ...run,
+      state: transitionRunState(
+        run.state,
+        RUN_EVENTS.BLOCKING_PRODUCT_DECISION,
+      ),
+      revision: run.revision + 1,
+    });
+    await services.states.save(advanced);
+    return toView(record, advanced, existing);
+  }
+
+  const decision = normalizeTask(
+    record.task,
+    await discoverRepositoryFacts(services.checkoutRoot),
+    new Date(),
+  );
+  if (isIntakePacket(decision)) {
+    await services.preparation.savePacket(decision);
+    if (run.state === RUN_STATES.INTAKE) {
+      const advanced = Object.freeze({
+        ...run,
+        state: transitionRunState(
+          run.state,
+          RUN_EVENTS.BLOCKING_PRODUCT_DECISION,
+        ),
+        revision: run.revision + 1,
+      });
+      await services.states.save(advanced);
+      return toView(record, advanced, { packet: decision });
+    }
+    return toView(record, run, { packet: decision });
+  }
+
+  await services.preparation.saveIntent(decision);
+  return toView(record, run, { intent: decision });
 }
 
 function initialRunFor(record: RunCatalogRecord): PersistedRunState {
@@ -358,13 +448,23 @@ async function recoverPendingRuns(services: CliServices): Promise<void> {
 function explainView(view: RunView): string {
   const nextAction = nextActionByState[view.run.state] ??
     "continue from the durable lifecycle state";
-  return [
+  const lines = [
     `Task: ${view.task.task_id}`,
     `Requested outcome: ${quotedTaskText(view.task.requested_outcome)}`,
     `Run: ${view.run.run_id}`,
     `State: ${view.run.state}`,
-    `Next action: ${nextAction}.`,
-  ].join("\n");
+  ];
+  if (view.intent !== undefined) {
+    lines.push(`Intent: ${quotedTaskText(view.intent.goals[0] ?? "")}`);
+  }
+  if (view.packet !== undefined) {
+    const question = view.packet.request.related_questions[0];
+    lines.push(
+      `Decision packet: ${quotedTaskText(question?.prompt ?? view.packet.affected_behavior)}`,
+    );
+  }
+  lines.push(`Next action: ${nextAction}.`);
+  return lines.join("\n");
 }
 
 function resumeView(view: RunView): string {
@@ -434,15 +534,21 @@ async function resumeCommand(
   services: CliServices,
 ): Promise<number> {
   const taskId = args[0] ?? "";
-  const view = await loadView(services, taskId);
-  if (view === null) {
+  const current = await loadView(services, taskId);
+  if (current === null) {
     io.error(`Task ${taskId} was not found.`);
     return 1;
   }
-  if (view.run.state === RUN_STATES.DONE) {
+  if (current.run.state === RUN_STATES.DONE) {
     io.error(`Task ${taskId} is already complete (DONE) and cannot resume.`);
     return 1;
   }
+  const record = await services.catalog.load(taskId);
+  if (record === null) {
+    io.error(`Task ${taskId} was not found.`);
+    return 1;
+  }
+  const view = await prepareRun(services, record, current.run);
   io.log(resumeView(view));
   return 0;
 }

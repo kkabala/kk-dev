@@ -34,6 +34,31 @@ type CommandResult = Readonly<{
 }>;
 
 type RunView = Readonly<{
+  intent?: Readonly<{
+    constraints: readonly string[];
+    goals: readonly string[];
+    intent_id: string;
+    non_goals: readonly string[];
+    schema_version: number;
+    task_id: string;
+    unresolved_decisions: readonly string[];
+  }>;
+  packet?: Readonly<{
+    affected_behavior: string;
+    packet_id: string;
+    request: Readonly<{
+      kind: string;
+      related_questions: readonly Readonly<{
+        alternatives: readonly string[];
+        prompt: string;
+        question_id: string;
+        recommended_answer: string;
+      }>[];
+    }>;
+    schema_version: number;
+    subject: Readonly<{ kind: string }>;
+    task_id: string;
+  }>;
   run: Readonly<{
     revision: number;
     run_id: string;
@@ -127,7 +152,8 @@ function expectedDigest(taskText: string): string {
 }
 
 function assertInitialRun(view: RunView, taskText: string): void {
-  assert.deepEqual(Object.keys(view).sort(), ["run", "task"]);
+  assert.ok(Object.hasOwn(view, "run"));
+  assert.ok(Object.hasOwn(view, "task"));
   assert.equal(view.task.schema_version, 1);
   assert.notEqual(view.task.task_id, "");
   assert.equal(view.task.requested_outcome, taskText);
@@ -243,7 +269,7 @@ test("the default state root is external and isolated per Git worktree", async (
   const expectedRoot = join(workspaceParent, workspaceKeys[0] ?? "missing");
   assert.deepEqual(
     (await readdir(expectedRoot)).sort(),
-    [`${view.run.run_id}.json`, `${view.task.task_id}.task.json`].sort(),
+    [`${view.run.run_id}.json`, `${view.task.task_id}.intent.json`, `${view.task.task_id}.task.json`].sort(),
   );
 
   const isolatedStatus = await invokeCliAtDefaultRoot(
@@ -878,7 +904,7 @@ test("concurrent run creators all report their durable task identity", async (t)
   const listed = await invokeCli(stateRoot, checkout, ["status"]);
   assert.equal(listed.exitCode, 0, listed.stderr);
   assert.equal((JSON.parse(listed.stdout) as readonly RunView[]).length, 24);
-  assert.equal((await readdir(stateRoot)).length, 48);
+  assert.equal((await readdir(stateRoot)).length, 72);
   assert.equal(
     (await readdir(stateRoot)).some((name) =>
       name.startsWith(".") || name.includes("~")
@@ -1120,4 +1146,81 @@ test("a completed run cannot be resumed", async (t) => {
   );
   assert.equal(status.run.state, "DONE");
   assert.equal(status.run.revision, 1);
+});
+
+test("a clear task proceeds through automatic intake without asking for repository facts", async (t) => {
+  const sandbox = await mkdtemp(join(tmpdir(), "exoframe-cli-clear-intake-"));
+  t.after(async () => rm(sandbox, { recursive: true, force: true }));
+  const stateRoot = join(sandbox, "state");
+  const checkout = join(sandbox, "checkout");
+  await mkdir(checkout);
+  await execFileAsync("git", ["init", "--quiet"], { cwd: checkout });
+  await writeFile(
+    join(checkout, "package.json"),
+    `${JSON.stringify({ scripts: { test: "node --test" } }, null, 2)}\n`,
+    "utf8",
+  );
+  const taskText = "Add CSV export to the orders page";
+
+  const started = await invokeCli(stateRoot, checkout, ["run", taskText]);
+  const view = parseStartedRun(started);
+
+  assert.equal(view.run.state, RUN_STATES.INTAKE);
+  assert.equal(view.run.revision, 0);
+  assert.equal(view.packet, undefined);
+  assert.ok(view.intent);
+  assert.deepEqual(view.intent.goals, [taskText]);
+  assert.deepEqual(view.intent.unresolved_decisions, []);
+  assert.match(
+    view.intent.constraints.join("\n"),
+    /do not ask a human for discoverable repository facts/iu,
+  );
+  assert.match(view.intent.constraints.join("\n"), /node --test/u);
+  assert.doesNotMatch(started.stderr, /base[_ ]ref|repository facts|which branch/iu);
+  assert.doesNotMatch(started.stdout, /base[_ ]ref|which branch/iu);
+
+  const explained = await invokeCli(stateRoot, checkout, [
+    "explain",
+    view.task.task_id,
+  ]);
+  assert.equal(explained.exitCode, 0, explained.stderr);
+  assert.match(explained.stdout, /intent:/iu);
+  assert.match(explained.stdout, /intake/iu);
+});
+
+test("an ambiguous product requirement emits one packet and does not start implementation", async (t) => {
+  const sandbox = await mkdtemp(join(tmpdir(), "exoframe-cli-packet-intake-"));
+  t.after(async () => rm(sandbox, { recursive: true, force: true }));
+  const stateRoot = join(sandbox, "state");
+  const checkout = join(sandbox, "checkout");
+  await mkdir(checkout);
+  const taskText = "Should the orders export be CSV or XLSX?";
+
+  const started = await invokeCli(stateRoot, checkout, ["run", taskText]);
+  const view = parseStartedRun(started);
+
+  assert.equal(view.run.state, RUN_STATES.WAITING_FOR_INTAKE_DECISION);
+  assert.equal(view.run.revision, 1);
+  assert.equal(view.intent, undefined);
+  assert.ok(view.packet);
+  assert.equal(view.packet.request.kind, "product_decision");
+  assert.equal(view.packet.request.related_questions.length, 1);
+  assert.deepEqual(view.packet.request.related_questions[0]?.alternatives, [
+    "CSV",
+    "XLSX",
+  ]);
+
+  const resumed = await invokeCli(stateRoot, checkout, [
+    "resume",
+    view.task.task_id,
+  ]);
+  assert.equal(resumed.exitCode, 0, resumed.stderr);
+  assert.match(resumed.stdout, /WAITING_FOR_INTAKE_DECISION/u);
+  assert.doesNotMatch(resumed.stdout, /IMPLEMENTING|VERIFYING|DONE/u);
+
+  const status = parseRunView(
+    (await invokeCli(stateRoot, checkout, ["status", view.task.task_id])).stdout,
+  );
+  assert.equal(status.run.state, RUN_STATES.WAITING_FOR_INTAKE_DECISION);
+  assert.equal(status.packet?.packet_id, view.packet.packet_id);
 });

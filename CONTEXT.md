@@ -28,6 +28,10 @@ _Avoid_: Run state, task list, cache
 The canonical checkout root plus root and Git-marker filesystem identity used to isolate external control-plane state from other or replacement checkouts.
 _Avoid_: Repository facts, working-directory string, remote repository ID
 
+**Repository facts**:
+Discoverable checkout observations used during run preparation: the actual base, instruction files, and existing test or build commands.
+_Avoid_: Workspace identity, task, conversational memory
+
 **Runner attempt**:
 One protected execution observation before authoritative history is evaluated into a gate result.
 _Avoid_: Test result, gate result
