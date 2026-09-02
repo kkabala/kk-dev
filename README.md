@@ -71,6 +71,11 @@ The evaluator is a pure function over required gates, measurements, GitHub
 state, and time. Advisory PASS and agent prose cannot satisfy a gate;
 authoritative FAIL wins; missing or mismatched evidence is never PASS.
 
+Accepted gaps and overrides are narrow, expiring, and independently approved
+where required. They never relabel a failed gate as PASS, always force
+`human_merge`, and need compensating evidence. Rejection, expiry, or missing
+compensation returns the run to verification.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

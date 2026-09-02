@@ -111,3 +111,11 @@ _Avoid_: Unprovenanced screenshot, attached image
 **Infrastructure retry**:
 A repeated protected execution after an infrastructure error; exhausting the configured retries yields a blocked gate, not a product bounce.
 _Avoid_: Product retry, rerun until green
+
+**Accepted gap**:
+A temporary exception covering a required behavior that cannot currently be measured; it needs compensating evidence, owner, reason, and expiry.
+_Avoid_: Waiver, skipped gate, silent skip
+
+**Override**:
+A temporary exception covering one specific authoritative failure believed to be a false positive; it needs an independent approver, exact evidence key, owner, reason, and expiry.
+_Avoid_: Force pass, ignored failure

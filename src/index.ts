@@ -47,6 +47,15 @@ export type {
 } from "./evidence-key.ts";
 export { evaluateTask } from "./evaluator.ts";
 export type { EvaluatedGate, TaskDecision } from "./evaluator.ts";
+export { resolveExceptions } from "./exception.ts";
+export type {
+  AcceptedGap,
+  ExceptionCoverage,
+  ExceptionDecision,
+  ExceptionRecord,
+  ExceptionResolution,
+  OverrideException,
+} from "./exception.ts";
 export { FileEvidenceStore } from "./evidence-store.ts";
 export type {
   ConsultResult,
