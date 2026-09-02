@@ -483,6 +483,12 @@ export class FileEvidenceStore {
     });
   }
 
+  async list(): Promise<readonly Measurement[]> {
+    const loaded = await this.#readExistingMeasurements();
+    loaded.sort(compareMeasurements);
+    return Object.freeze(loaded);
+  }
+
   async #appendMeasurement(measurement: Measurement): Promise<Measurement> {
     await this.#prepareDirectory(this.#measurementsDirectory());
     await this.#publishExclusive(
@@ -510,6 +516,10 @@ export class FileEvidenceStore {
 
   async #loadMeasurements(): Promise<Measurement[]> {
     await this.#prepareDirectory(this.#measurementsDirectory());
+    return this.#readExistingMeasurements();
+  }
+
+  async #readExistingMeasurements(): Promise<Measurement[]> {
     let entries: string[];
     try {
       entries = await readdir(this.#measurementsDirectory());

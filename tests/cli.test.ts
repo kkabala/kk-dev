@@ -45,6 +45,8 @@ test("--help explains the available task lifecycle interface", async () => {
       "  exoframe status [task-id]",
       "  exoframe explain [task-id]",
       "  exoframe resume <task-id>",
+      "  exoframe evidence show <gate-id>",
+      "  exoframe gate run --task <task-id> --gate <gate-id>",
       "  exoframe --help",
       "  exoframe --version",
     ].join("\n"),

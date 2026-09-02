@@ -37,6 +37,8 @@ node dist/bin.js status
 node dist/bin.js status <task-id>
 node dist/bin.js explain <task-id>
 node dist/bin.js resume <task-id>
+node dist/bin.js evidence show <gate-id>
+node dist/bin.js gate run --task <task-id> --gate <gate-id>
 ```
 
 `run` emits the new task, its durable checkpoint, and the automatic intake

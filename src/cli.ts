@@ -1,11 +1,21 @@
+import { execFile, spawn } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
-import { lstat, realpath } from "node:fs/promises";
+import { constants, lstat, open, realpath } from "node:fs/promises";
 import { homedir } from "node:os";
 import path from "node:path";
 import process from "node:process";
+import { promisify } from "node:util";
 
 import { parseSha256Digest, RUN_STATES } from "./domain.ts";
-import type { Intent, Task, TaskProductDecisionPacket } from "./domain.ts";
+import type { Intent, Sha256Digest, Task, TaskProductDecisionPacket } from "./domain.ts";
+import {
+  computeEvidenceKey,
+  isUncertainEvidenceKey,
+  serializeCanonical,
+} from "./evidence-key.ts";
+import { FileEvidenceStore } from "./evidence-store.ts";
+import { resolveProtectedTemplate } from "./gate-template.ts";
+import type { ResolvedProtectedCommand } from "./gate-template.ts";
 import {
   discoverRepositoryFacts,
   isIntakePacket,
@@ -14,6 +24,11 @@ import {
 import { FilePreparationStore } from "./preparation-store.ts";
 import { productInfo } from "./product.ts";
 import {
+  DEFAULT_INFRASTRUCTURE_RETRIES,
+  DEFAULT_MAX_ARTIFACT_BYTES,
+  ProtectedRunner,
+} from "./protected-runner.ts";
+import {
   FileRunCatalog,
   isRunCatalogIdentifier,
 } from "./run-catalog.ts";
@@ -21,6 +36,8 @@ import type { RunCatalogRecord } from "./run-catalog.ts";
 import { RUN_EVENTS, transitionRunState } from "./run-state.ts";
 import { FileRunStateStore } from "./run-state-store.ts";
 import type { PersistedRunState } from "./run-state-store.ts";
+
+const execFileAsync = promisify(execFile);
 
 export type CliIo = Readonly<{
   error(message: string): void;
@@ -37,6 +54,7 @@ type RunView = Readonly<{
 type CliServices = Readonly<{
   catalog: FileRunCatalog;
   checkoutRoot: string;
+  evidence: FileEvidenceStore;
   preparation: FilePreparationStore;
   states: FileRunStateStore;
 }>;
@@ -54,9 +72,44 @@ const HELP = [
   "  exoframe status [task-id]",
   "  exoframe explain [task-id]",
   "  exoframe resume <task-id>",
+  "  exoframe evidence show <gate-id>",
+  "  exoframe gate run --task <task-id> --gate <gate-id>",
   "  exoframe --help",
   "  exoframe --version",
 ].join("\n");
+
+const RAW_COMMAND = "RAW_COMMAND";
+const unversionedSha = "unversioned-working-tree";
+const gateIdPattern = /^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$/u;
+const rawCliTokens = new Set([
+  "--argv",
+  "--authoritative",
+  "--cmd",
+  "--command",
+  "--command-text",
+  "--command_text",
+  "--raw",
+  "--shell",
+  "--stdin",
+  "argv",
+  "cmd",
+  "command",
+  "command_text",
+  "raw",
+  "shell",
+  "stdin",
+]);
+const rawCliPrefixes = [
+  "--argv=",
+  "--authoritative=",
+  "--cmd=",
+  "--command=",
+  "--command-text=",
+  "--command_text=",
+  "--raw=",
+  "--shell=",
+  "--stdin=",
+];
 
 const nextActionByState: Readonly<Record<string, string>> = Object.freeze({
   [RUN_STATES.INTAKE]: "continue automatic intake from the durable task context",
@@ -163,6 +216,7 @@ async function createServices(): Promise<CliServices> {
   return {
     catalog: new FileRunCatalog(stateRoot),
     checkoutRoot: boundary.root,
+    evidence: new FileEvidenceStore(path.join(stateRoot, "evidence")),
     preparation: new FilePreparationStore(stateRoot),
     states: new FileRunStateStore(stateRoot),
   };
@@ -201,6 +255,242 @@ function operationalError(io: CliIo, error: unknown): number {
 
 function printJson(io: CliIo, value: unknown): void {
   io.log(terminalSafeJson(value));
+}
+
+function isRawCliToken(token: string): boolean {
+  if (rawCliTokens.has(token)) {
+    return true;
+  }
+  for (let index = 0; index < rawCliPrefixes.length; index += 1) {
+    const prefix = rawCliPrefixes[index];
+    if (prefix !== undefined && token.startsWith(prefix)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function digestCanonical(value: unknown): Sha256Digest {
+  return parseSha256Digest(
+    `sha256:${createHash("sha256").update(serializeCanonical(value), "utf8").digest("hex")}`,
+  );
+}
+
+async function readRegularFile(filePath: string): Promise<string> {
+  const metadata = await lstat(filePath);
+  if (!metadata.isFile() || metadata.isSymbolicLink()) {
+    throw new TypeError("Invalid gate template catalog");
+  }
+  const handle = await open(
+    filePath,
+    constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
+  );
+  try {
+    return await handle.readFile("utf8");
+  } finally {
+    await handle.close();
+  }
+}
+
+async function loadTemplateCatalog(checkoutRoot: string): Promise<unknown> {
+  const catalogPath = path.join(checkoutRoot, ".exoframe", "templates.json");
+  const contents = await readRegularFile(catalogPath);
+  return JSON.parse(contents) as unknown;
+}
+
+async function discoverMeasuredSha(checkoutRoot: string): Promise<string> {
+  try {
+    const revision = await execFileAsync(
+      "git",
+      ["-C", checkoutRoot, "rev-parse", "HEAD"],
+      { encoding: "utf8" },
+    );
+    const sha = revision.stdout.trim();
+    if (/^[0-9a-f]{40,64}$/u.test(sha)) {
+      return sha;
+    }
+  } catch {
+    // Non-Git checkouts use the unversioned sentinel.
+  }
+  return unversionedSha;
+}
+
+function executeProtectedCommand(
+  command: ResolvedProtectedCommand,
+  context: Readonly<{ sandbox_root: string }>,
+): Promise<unknown> {
+  const file = command.argv[0];
+  const argv = command.argv.slice(1);
+  if (file === undefined) {
+    throw new TypeError("Raw command is not allowed");
+  }
+  return new Promise((resolve) => {
+    let settled = false;
+    let timedOut = false;
+    let stdout = "";
+    let stderr = "";
+    const child = spawn(file, argv, {
+      cwd: context.sandbox_root,
+      env: {
+        LANG: "C",
+        PATH: process.env.PATH ?? "/usr/bin:/bin:/usr/sbin:/sbin",
+      },
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    const timer = setTimeout(() => {
+      timedOut = true;
+      child.kill("SIGTERM");
+    }, command.template.timeout_seconds * 1000);
+
+    function finish(observation: Readonly<{
+      artifacts: readonly never[];
+      exit_code: number | null;
+      sandbox_error: string | null;
+      stderr: string;
+      stdout: string;
+      timed_out: boolean;
+    }>): void {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      clearTimeout(timer);
+      resolve(Object.freeze(observation));
+    }
+
+    child.stdout.setEncoding("utf8");
+    child.stderr.setEncoding("utf8");
+    child.stdout.on("data", (chunk: string) => {
+      stdout += chunk;
+    });
+    child.stderr.on("data", (chunk: string) => {
+      stderr += chunk;
+    });
+    child.on("error", (error) => {
+      finish({
+        stdout,
+        stderr: error.message,
+        exit_code: null,
+        timed_out: false,
+        sandbox_error: error.message,
+        artifacts: Object.freeze([]),
+      });
+    });
+    child.on("close", (code) => {
+      finish({
+        stdout,
+        stderr,
+        exit_code: code,
+        timed_out: timedOut,
+        sandbox_error: null,
+        artifacts: Object.freeze([]),
+      });
+    });
+  });
+}
+
+function parseGateRunFlags(args: readonly string[]): {
+  gateId: string;
+  taskId: string;
+} {
+  let taskId: string | undefined;
+  let gateId: string | undefined;
+  for (let index = 0; index < args.length; index += 1) {
+    const token = args[index];
+    if (token === "--task") {
+      taskId = args[index + 1];
+      index += 1;
+      continue;
+    }
+    if (token === "--gate") {
+      gateId = args[index + 1];
+      index += 1;
+    }
+  }
+  if (taskId === undefined || gateId === undefined) {
+    throw new TypeError("Invalid gate run arguments");
+  }
+  return { taskId, gateId };
+}
+
+async function gateRunCommand(
+  args: readonly string[],
+  io: CliIo,
+  services: CliServices,
+): Promise<number> {
+  const flags = parseGateRunFlags(args.slice(1));
+  const view = await loadView(services, flags.taskId);
+  if (view === null) {
+    io.error(`Task ${flags.taskId} was not found.`);
+    return 1;
+  }
+  const catalog = await loadTemplateCatalog(services.checkoutRoot);
+  const command = resolveProtectedTemplate(catalog, {
+    gate_id: flags.gateId,
+  });
+  const templateDigest = digestCanonical(command.template);
+  const evidenceKey = computeEvidenceKey(
+    {
+      gate_id: command.gate_id,
+      template_digest: templateDigest,
+      oracle_digest: null,
+    },
+    [],
+    [],
+    {
+      capability_profile: "local",
+      runner_image: "exoframe-local-protected",
+      toolchain: "node-22.18",
+    },
+  );
+  if (isUncertainEvidenceKey(evidenceKey)) {
+    throw new TypeError("Invalid evidence key input");
+  }
+  const measuredSha = await discoverMeasuredSha(services.checkoutRoot);
+  const session = await new ProtectedRunner().run(command, {
+    task_id: view.task.task_id,
+    measured_sha: measuredSha,
+    base_sha: measuredSha,
+    policy_digest: digestCanonical(catalog),
+    runner_digest: digestCanonical({
+      kind: "exoframe-local-protected",
+      version: productInfo().version,
+    }),
+    template_digest: templateDigest,
+    input_digest: evidenceKey.input_digest,
+    environment_digest: evidenceKey.environment_digest,
+    oracle_digest: evidenceKey.oracle_digest,
+    sandbox_root: services.checkoutRoot,
+    evidence_store: services.evidence,
+    execute: executeProtectedCommand,
+    secrets: [],
+    infrastructure_retries: DEFAULT_INFRASTRUCTURE_RETRIES,
+    max_artifact_bytes: DEFAULT_MAX_ARTIFACT_BYTES,
+    runner_identity: "exoframe-local-protected",
+  });
+  printJson(io, session);
+  return 0;
+}
+
+async function evidenceShowCommand(
+  args: readonly string[],
+  io: CliIo,
+  services: CliServices,
+): Promise<number> {
+  const gateId = args[1] ?? "";
+  const measurements = (await services.evidence.list()).filter(
+    (measurement) => measurement.gate_id === gateId,
+  );
+  printJson(
+    io,
+    Object.freeze({
+      schema_version: 1,
+      advisory: true,
+      gate_id: gateId,
+      measurements: Object.freeze(measurements),
+    }),
+  );
+  return 0;
 }
 
 function toView(
@@ -576,6 +866,60 @@ function validateCommandArguments(
       return args.length === 1 && isRunCatalogIdentifier(args[0])
         ? null
         : "resume requires exactly one valid task ID.";
+    case "gate": {
+      if (args.some(isRawCliToken)) {
+        return RAW_COMMAND;
+      }
+      if ((args[0] ?? "") !== "run") {
+        return "gate requires the run subcommand.";
+      }
+      const flags = args.slice(1);
+      let taskId: string | undefined;
+      let gateId: string | undefined;
+      for (let index = 0; index < flags.length; index += 1) {
+        const token = flags[index];
+        if (token === "--task") {
+          const value = flags[index + 1];
+          if (
+            taskId !== undefined ||
+            value === undefined ||
+            !isRunCatalogIdentifier(value)
+          ) {
+            return "gate run requires --task <task-id> and --gate <gate-id>.";
+          }
+          taskId = value;
+          index += 1;
+          continue;
+        }
+        if (token === "--gate") {
+          const value = flags[index + 1];
+          if (
+            gateId !== undefined ||
+            value === undefined ||
+            !gateIdPattern.test(value)
+          ) {
+            return "gate run requires --task <task-id> and --gate <gate-id>.";
+          }
+          gateId = value;
+          index += 1;
+          continue;
+        }
+        return RAW_COMMAND;
+      }
+      return taskId !== undefined && gateId !== undefined
+        ? null
+        : "gate run requires --task <task-id> and --gate <gate-id>.";
+    }
+    case "evidence":
+      if (args.some(isRawCliToken)) {
+        return RAW_COMMAND;
+      }
+      if ((args[0] ?? "") !== "show") {
+        return "evidence requires the show subcommand.";
+      }
+      return args.length === 2 && gateIdPattern.test(args[1] ?? "")
+        ? null
+        : "evidence show requires exactly one gate ID.";
     default:
       throw new TypeError("Unsupported CLI command");
   }
@@ -599,7 +943,11 @@ export async function runCli(
   }
 
   const [command, ...commandArgs] = args;
-  if (!["run", "status", "explain", "resume"].includes(command ?? "")) {
+  if (
+    !["run", "status", "explain", "resume", "gate", "evidence"].includes(
+      command ?? "",
+    )
+  ) {
     io.error(
       `Unknown argument: ${terminalSafe(command ?? "")}\n` +
         "Run exoframe --help for usage.",
@@ -607,6 +955,10 @@ export async function runCli(
     return 2;
   }
   const argumentError = validateCommandArguments(command ?? "", commandArgs);
+  if (argumentError === RAW_COMMAND) {
+    io.error("Raw command is not allowed");
+    return 2;
+  }
   if (argumentError !== null) {
     return usageError(io, argumentError);
   }
@@ -623,6 +975,10 @@ export async function runCli(
         return await explainCommand(commandArgs, io, services);
       case "resume":
         return await resumeCommand(commandArgs, io, services);
+      case "gate":
+        return await gateRunCommand(commandArgs, io, services);
+      case "evidence":
+        return await evidenceShowCommand(commandArgs, io, services);
       default:
         throw new TypeError("Unsupported CLI command");
     }

@@ -1065,6 +1065,10 @@ test("malformed commands never inspect or recover durable state", async (t) => {
     ["resume", " "],
     ["status", "../escape"],
     ["explain", "UPPER"],
+    ["gate"],
+    ["gate", "run"],
+    ["evidence"],
+    ["evidence", "show"],
   ] as const) {
     const malformed = await invokeCli(stateRoot, checkout, args);
     assert.equal(malformed.exitCode, 2, args.join(" "));
