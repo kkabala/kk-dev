@@ -78,6 +78,11 @@ where required. They never relabel a failed gate as PASS, always force
 `human_merge`, and need compensating evidence. Rejection, expiry, or missing
 compensation returns the run to verification.
 
+Changed paths are classified by base policy. Declared documentation may stay
+non-production; uncertain paths fail upward to production treatment. Unknown
+production code receives provisional R2 coverage. A proposal may add coverage
+or raise risk, but it cannot drop hypotheses, paths, or a risk floor.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

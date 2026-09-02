@@ -116,5 +116,15 @@ export type {
 } from "./run-state.ts";
 export { FileRunStateStore } from "./run-state-store.ts";
 export type { PersistedRunState } from "./run-state-store.ts";
+export { matchSurfaces, PATH_CATEGORIES, RISK_TIERS } from "./surfaces.ts";
+export type {
+  MatchedSurface,
+  PathCategory,
+  PathClassification,
+  PathRule,
+  RiskTier,
+  SurfaceDecision,
+  SurfaceRecord,
+} from "./surfaces.ts";
 export { productInfo } from "./product.ts";
 export type { ProductInfo } from "./product.ts";

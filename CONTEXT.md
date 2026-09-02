@@ -119,3 +119,15 @@ _Avoid_: Waiver, skipped gate, silent skip
 **Override**:
 A temporary exception covering one specific authoritative failure believed to be a false positive; it needs an independent approver, exact evidence key, owner, reason, and expiry.
 _Avoid_: Force pass, ignored failure
+
+**Path category**:
+The base-policy classification of a changed path as production, verification, control-plane, or declared non-production material.
+_Avoid_: File type, language, folder name
+
+**Surface**:
+A named product boundary with paths, risk floor, consumption exercises, and hypotheses that production changes must match.
+_Avoid_: Feature area, module, component
+
+**Provisional R2**:
+Coverage assigned when a production path does not match a declared surface; it raises unknown shipped behavior to R2 rather than leaving it unclassified.
+_Avoid_: Default skip, inferred R0
