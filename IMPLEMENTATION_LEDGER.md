@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S2.1 — Define protected gate-template schema and resolver`
+`S2.2 — Implement evidence-key canonicalization`
 
 ## Task ledger
 
@@ -42,7 +42,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S1.3 | Persist and reload run state atomically | DONE | RED→GREEN across ten hardening cycles; 15 persistence tests, full `npm run check` with 64 tests, installed 24/28-writer and dead-owner recovery replays, and exact 25-artifact package | `GR-20260901-S1.3-R1`; `a30215b` |
 | S1.4 | Implement `run`, `status`, `resume`, and `explain` CLI flow | DONE | RED→GREEN across eleven hardening cycles and downstream returns, including the STORAGE HIGH `stage()` check-then-act race; 20 CLI, 7 catalog, and exact-initialization tests; full `npm run check` with 92 tests; exact 28-artifact installed package; workspace, hostile-storage, residual-journal, phase-race, concurrent creator/recovery, and exclusive-staging-across-commit replays | `GR-20260902-S1.4-R2`; `3796f41` |
 | S1.5 | Implement automatic repository discovery and intake decisions | DONE | RED→GREEN: 22 CLI, 4 intake, and 1 preparation-store tests; clear task normalizes intent without asking for repository facts; ambiguity emits one packet and stays `WAITING_FOR_INTAKE_DECISION`; full `npm run check` with 99 tests; exact 34-artifact installed package | `GR-20260902-S1.5-R1`; `b24190c` |
-| S2.1 | Define protected gate-template schema and resolver | AWAITING_REVIEW | RED→GREEN: 4 gate-template tests; protected argv schema; raw command text and caller argv cannot resolve a protected command; full `npm run check` with 103 tests; exact 37-artifact installed package | `GR-20260902-S2.1-R1`; pending commit |
+| S2.1 | Define protected gate-template schema and resolver | DONE | RED→GREEN: 4 gate-template tests; protected argv schema; raw command text and caller argv cannot resolve a protected command; full `npm run check` with 103 tests; exact 37-artifact installed package | `GR-20260902-S2.1-R1`; `92ac961` |
 | S2.2 | Implement evidence-key canonicalization | NOT_STARTED | golden-vector tests | pending |
 | S2.3 | Implement append-only evidence store, reuse, and FLAKY history | NOT_STARTED | immutability/idempotency/reuse/mixed-outcome tests | pending |
 | S2.4 | Implement runner attempt parsing, retries, redaction, and artifact policy | NOT_STARTED | runner boundary tests | pending |
@@ -139,3 +139,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `a30215b` | S1.3 atomic run-state persistence and restart recovery | ten hardening cycles closed atomicity, lock ownership/recovery, namespace, platform, immutable identity, call-boundary capture, and high-contention livelock gaps; 15 focused tests, 64 full-suite tests, installed 24/28-writer replays, and 25-artifact package are green | `ACCEPT` (`GR-20260901-S1.3-R1`) |
 | `3796f41` | S1.4 run, status, resume, and explain CLI with durable catalog | eleven hardening cycles closed workspace identity, residual-journal recovery, phase-race reconciliation, concurrent creator/recovery, and `stage()`/`commit` TOCTOU; 20 CLI and 7 catalog tests, 92 full-suite tests, and the 28-artifact package are green | `ACCEPT` (`GR-20260902-S1.4-R2`) |
 | `b24190c` | S1.5 automatic repository discovery and intake decisions | clear tasks normalize intent without asking for repository facts; blocking product choices emit one packet and wait; 22 CLI, 4 intake, and 1 preparation-store tests, 99 full-suite tests, and the 34-artifact package are green | `ACCEPT` (`GR-20260902-S1.5-R1`) |
+| `92ac961` | S2.1 protected gate-template schema and resolver | argv templates resolve by gate ID; raw command text and caller argv cannot mint a protected command; 4 gate-template tests, 103 full-suite tests, and the 37-artifact package are green | `ACCEPT` (`GR-20260902-S2.1-R1`) |
