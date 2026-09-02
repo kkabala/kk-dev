@@ -45,6 +45,12 @@ export type {
   UncertainNamedArtifact,
   UncertainRepositoryObject,
 } from "./evidence-key.ts";
+export { FileEvidenceStore } from "./evidence-store.ts";
+export type {
+  ConsultResult,
+  Measurement,
+  ReuseDecision,
+} from "./evidence-store.ts";
 export { FilePreparationStore } from "./preparation-store.ts";
 export {
   GATE_CLASSES,

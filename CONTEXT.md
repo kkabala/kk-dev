@@ -99,3 +99,7 @@ _Avoid_: Raw command, caller argv, shell string
 **Evidence key**:
 The identity of exactly what was checked, with which template and environment; ephemeral hostnames and timestamps are not part of it.
 _Avoid_: Measurement, log line, check name
+
+**Measurement**:
+An immutable runner record of one attempt; reuse decisions may be appended beside it, but the body is never rewritten.
+_Avoid_: Gate result, log, advisory PASS

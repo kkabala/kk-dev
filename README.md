@@ -56,6 +56,10 @@ environment digest, and oracle digest when required. The same selected tree,
 artifacts, and runner profile produce the same key; hostname and timestamp do
 not. Uncertain dependency selection does not yield a reusable key.
 
+Authoritative measurements are appended once and never rewritten. Exact-key
+reuse records a decision beside the original body; mixed product outcomes for
+one key become FLAKY, and retrying until green cannot clear them.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so
