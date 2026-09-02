@@ -29,6 +29,21 @@ export {
 export type { IntakeDecision, RepositoryFacts } from "./intake.ts";
 export { FilePreparationStore } from "./preparation-store.ts";
 export {
+  GATE_CLASSES,
+  isResolvedProtectedCommand,
+  parseGateTemplate,
+  parseGateTemplateCatalog,
+  resolveProtectedTemplate,
+} from "./gate-template.ts";
+export type {
+  GateClass,
+  GateCommand,
+  GateTemplate,
+  GateTemplateCatalog,
+  ProtectedTemplateRequest,
+  ResolvedProtectedCommand,
+} from "./gate-template.ts";
+export {
   deriveEngineeringStatus,
   ENGINEERING_STATUSES,
   GATE_RESULTS,

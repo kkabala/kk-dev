@@ -47,6 +47,10 @@ while `explain` renders the current state and next action for a person. `resume`
 reloads a non-completed checkpoint and continues unfinished intake without
 starting implementation; later slices add automatic gates and pstack assignment.
 
+Protected gate templates are looked up by gate ID from the accepted base
+catalog. Authoritative commands are argv arrays captured from those templates;
+raw command text and caller-supplied argv cannot create a protected command.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

@@ -91,3 +91,7 @@ _Avoid_: Provider
 **Gate**:
 A progression requirement evaluated from accepted evidence; it may require an executable test or another authenticated observation.
 _Avoid_: Test, check
+
+**Gate template**:
+The protected command definition used to execute a gate, selected by gate ID from templates accepted by the actual base.
+_Avoid_: Raw command, caller argv, shell string
