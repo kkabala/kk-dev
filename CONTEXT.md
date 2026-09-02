@@ -103,3 +103,11 @@ _Avoid_: Measurement, log line, check name
 **Measurement**:
 An immutable runner record of one attempt; reuse decisions may be appended beside it, but the body is never rewritten.
 _Avoid_: Gate result, log, advisory PASS
+
+**Evidence artifact**:
+A runner-produced file that counts as evidence only when bound to runner identity, measured commit, and gate.
+_Avoid_: Unprovenanced screenshot, attached image
+
+**Infrastructure retry**:
+A repeated protected execution after an infrastructure error; exhausting the configured retries yields a blocked gate, not a product bounce.
+_Avoid_: Product retry, rerun until green

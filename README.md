@@ -60,6 +60,13 @@ Authoritative measurements are appended once and never rewritten. Exact-key
 reuse records a decision beside the original body; mixed product outcomes for
 one key become FLAKY, and retrying until green cannot clear them.
 
+The protected runner parses structured output into a runner attempt, redacts
+secrets, and hashes the redacted bytes before append. Sandbox and runner
+failures are `INFRA_ERROR` and retry twice by default, then become `BLOCKED`
+rather than a product bounce. Screenshots and video without runner and commit
+provenance remain advisory; symlink escapes, writes outside sandbox roots, and
+oversized artifacts fail the gate.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

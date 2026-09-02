@@ -53,6 +53,24 @@ export type {
 } from "./evidence-store.ts";
 export { FilePreparationStore } from "./preparation-store.ts";
 export {
+  DEFAULT_INFRASTRUCTURE_RETRIES,
+  DEFAULT_MAX_ARTIFACT_BYTES,
+  parseRunnerAttempt,
+  ProtectedRunner,
+  redactText,
+} from "./protected-runner.ts";
+export type {
+  AdvisoryArtifact,
+  ArtifactPolicy,
+  BoundArtifact,
+  ExecuteProtectedCommand,
+  ObservedArtifact,
+  ParsedRunnerAttempt,
+  ProtectedRunRequest,
+  RunnerObservation,
+  RunnerSessionResult,
+} from "./protected-runner.ts";
+export {
   GATE_CLASSES,
   isResolvedProtectedCommand,
   parseGateTemplate,
