@@ -152,3 +152,5 @@ export type {
 } from "./surfaces.ts";
 export { productInfo } from "./product.ts";
 export type { ProductInfo } from "./product.ts";
+export { checkPstackHealth } from "./pstack-health.ts";
+export type { PstackEngine, PstackHealth } from "./pstack-health.ts";

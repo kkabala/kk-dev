@@ -155,3 +155,7 @@ _Avoid_: Human reviewer, tester, implementer
 **Independent verifier**:
 The R2/R3 role that attacks hypotheses and proposes harnesses; its prose stays advisory until the protected runner measures an accepted harness.
 _Avoid_: Implementer self-check, final PASS
+
+**Pstack health**:
+A read-only adapter check that the installed public pstack capabilities satisfy the required contract without modifying the engine.
+_Avoid_: Plugin install, pstack patch
