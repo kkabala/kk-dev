@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S3.3 — Implement PAC schema, digests, locking, and intended-red overlay`
+`S3.4 — Implement deterministic G0–G9 derivation`
 
 ## Task ledger
 
@@ -51,7 +51,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S2.7 | Implement protected `gate run` and advisory `evidence show` CLI | DONE | RED→GREEN: 3 gate CLI tests plus help/malformed updates; `--cmd`/caller argv cannot create evidence; `gate run` looks up a protected template by gate ID and writes authoritative measurements; `evidence show` is advisory and does not append; full `npm run check` with 133 tests; exact 52-artifact installed package | `GR-20260902-S2.7-R1`; `b7a0618` |
 | S3.1 | Define path categories and surface catalog | DONE | RED→GREEN across R1 REJECT: provisional ids are digest-stable for any production path charset; 3 surface tests; untracked_ok docs vs uncertain production; unmatched production is provisional R2; proposal cannot drop hypotheses/coverage; full `npm run check` with 136 tests; exact 55-artifact installed package | `GR-20260902-S3.1-R2`; `c3c9d74` |
 | S3.2 | Implement fail-up risk classification | DONE | RED→GREEN: 2 risk tests; R0–R3 decision table; untracked_ok remains R0; unknown production R2; control-plane and trust-boundary R3; agent cannot lower a computed tier; full `npm run check` with 138 tests; exact 58-artifact installed package | `GR-20260902-S3.2-R1`; `6302df5` |
-| S3.3 | Implement PAC schema, digests, locking, and intended-red overlay | AWAITING_REVIEW | RED→GREEN: 3 PAC tests; lockPac freezes semantic/oracle digests at the base SHA; intended-red overlay is PAC-only and excludes candidate production; named-outcome fail on base is accepted while crash/timeout/import/unrelated/setup-fail return to author and already-green/infra do not assign pstack; the same locked PAC greens on the candidate; full `npm run check` with 141 tests; exact 61-artifact installed package | `GR-20260902-S3.3-R1`; pending commit |
+| S3.3 | Implement PAC schema, digests, locking, and intended-red overlay | DONE | RED→GREEN: 3 PAC tests; lockPac freezes semantic/oracle digests at the base SHA; intended-red overlay is PAC-only and excludes candidate production; named-outcome fail on base is accepted while crash/timeout/import/unrelated/setup-fail return to author and already-green/infra do not assign pstack; the same locked PAC greens on the candidate; full `npm run check` with 141 tests; exact 61-artifact installed package | `GR-20260902-S3.3-R1`; `d1c694b` |
 | S3.4 | Implement deterministic G0–G9 derivation | NOT_STARTED | gate-plan golden tests | pending |
 | S3.5 | Implement acceptance-author and independent-verifier boundaries | NOT_STARTED | identity/separation tests | pending |
 | S3.6 | Implement `surfaces explain` and `policy check` CLI | NOT_STARTED | explanation and weakening-detection tests | pending |
@@ -148,3 +148,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `b7a0618` | S2.7 protected gate run and advisory evidence show CLI | `--cmd`/caller argv cannot create evidence; gate run looks up a protected template and writes authoritative measurements; evidence show is advisory and does not append; 3 gate CLI tests, 133 full-suite tests, and the 52-artifact package are green | `ACCEPT` (`GR-20260902-S2.7-R1`) |
 | `c3c9d74` | S3.1 path categories and surface catalog | R1 closed raw-path provisional ids; untracked_ok docs vs uncertain production; unmatched production is provisional R2; proposals cannot drop hypotheses or coverage; 3 surface tests, 136 full-suite tests, and the 55-artifact package are green | `ACCEPT` (`GR-20260902-S3.1-R2`) |
 | `6302df5` | S3.2 fail-up risk classification | R0–R3 decision table; untracked_ok remains R0; unknown production R2; control-plane and trust-boundary R3; agent cannot lower a computed tier; 2 risk tests, 138 full-suite tests, and the 58-artifact package are green | `ACCEPT` (`GR-20260902-S3.2-R1`) |
+| `d1c694b` | S3.3 PAC schema, digests, locking, and intended-red overlay | lockPac freezes semantic/oracle digests; PAC-only overlay excludes candidate production; named intended-red fail on base is accepted while crash/timeout/import/unrelated/setup-fail return to author; the same locked PAC greens on the candidate; 3 PAC tests, 141 full-suite tests, and the 61-artifact package are green | `ACCEPT` (`GR-20260902-S3.3-R1`) |
