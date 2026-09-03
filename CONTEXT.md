@@ -207,3 +207,7 @@ _Avoid_: Retry until green, original DONE
 **Escaped defect**:
 A production failure found after DONE. It opens a linked learning run that cannot close until G9 replays the defective snapshot.
 _Avoid_: Patch forward only, original reopened
+
+**Base judges candidate**:
+Trust-boundary changes to policy, templates, runner, or evaluator are judged by the accepted base definitions. Candidate-controlled code cannot approve itself.
+_Avoid_: Self-approving PR, candidate-trusted runner

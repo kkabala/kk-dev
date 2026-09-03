@@ -160,6 +160,12 @@ An escaped defect after DONE opens a linked learning run. G9 passes only when
 a durable fix exists, the preserved defective snapshot fails, the repaired
 snapshot passes, and the missed gate and risk are recorded.
 
+A candidate that changes runner or policy is judged by the accepted base and
+cannot pass itself. Scope expansion inside an affected surface is automatic;
+unknown production is provisional R2; trust-boundary expansion needs approval.
+Secrets are redacted before storage. Oversized, unallowlisted, or escaping
+artifacts are rejected without leaking their content.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

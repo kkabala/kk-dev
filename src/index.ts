@@ -21,6 +21,11 @@ export type {
   Task,
   TaskProductDecisionPacket,
 } from "./domain.ts";
+export { evaluateHardening } from "./hardening.ts";
+export type {
+  HardeningDecision,
+  ScopeDecision,
+} from "./hardening.ts";
 export { evaluateG9 } from "./g9.ts";
 export type { G9Decision } from "./g9.ts";
 export { resolveDeliveryRepair } from "./delivery-repair.ts";
