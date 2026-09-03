@@ -166,6 +166,11 @@ export type {
 } from "./pstack-candidate.ts";
 export { resolvePstackRuntime } from "./pstack-runtime.ts";
 export type { PstackRuntime } from "./pstack-runtime.ts";
+export { evaluateGovernance } from "./github-governance.ts";
+export type {
+  GovernanceDecision,
+  GovernanceReviews,
+} from "./github-governance.ts";
 export { parseGithubState } from "./github.ts";
 export type {
   GithubActor,

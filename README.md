@@ -134,6 +134,11 @@ update that same draft. Exoframe publishes `exoframe/engineering` and
 `exoframe/merge-ready` checks. A pull request or green engineering check does
 not complete the run.
 
+Required GitHub reviews, CODEOWNERS, and stale approvals keep the run in
+`WAITING_FOR_REVIEW` without an active agent. Review-requested changes return
+to pstack. Zero required reviewers still wait in `WAITING_FOR_MERGE` while
+policy remains `human_merge`.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

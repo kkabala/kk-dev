@@ -183,3 +183,7 @@ _Avoid_: Agent merge, unauthenticated check
 **Draft pull request**:
 The GitHub pull request Exoframe creates or updates for a coherent candidate; it is a stable review surface, not run completion.
 _Avoid_: Done, merged, CI green
+
+**Governance wait**:
+A persisted run waiting for required GitHub review, CODEOWNERS, approval freshness, or human merge authorization, without an active agent.
+_Avoid_: Done, agent idle, skip human merge
