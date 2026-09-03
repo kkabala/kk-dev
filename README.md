@@ -178,6 +178,9 @@ rollout may advance. Rollout moves one healthy stage at a time from canary to
 subset to production and cannot skip. Demotion rehearsal decreases autonomy
 when quality worsens and does not mutate production.
 
+All 41 specification acceptance scenarios map to executable tests. The ledger
+names each owning slice; the scenario map names the tests.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

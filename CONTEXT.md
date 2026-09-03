@@ -219,3 +219,7 @@ _Avoid_: Agent merge toggle, silent quality ignore
 **Evaluation bank**:
 A frozen set of representative tasks that must pass before a staged production rollout may advance. Exoframe authorizes the next healthy canary, subset, or production stage; the project system owns deploy credentials. A demotion rehearsal decreases autonomy without mutating production.
 _Avoid_: Ad-hoc prod experiment, skip-to-prod, universal deployer
+
+**Acceptance scenario**:
+One of the 41 required specification cases. The ledger names the owning slice; the scenario map names the executable tests that prove it.
+_Avoid_: Checklist-only coverage, undocumented gap

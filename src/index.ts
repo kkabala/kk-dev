@@ -36,6 +36,11 @@ export type {
   RolloutDecision,
   RolloutStage,
 } from "./rollout.ts";
+export { listAcceptanceScenarios } from "./scenarios.ts";
+export type {
+  AcceptanceScenario,
+  ScenarioTestRef,
+} from "./scenarios.ts";
 export { evaluateG9 } from "./g9.ts";
 export type { G9Decision } from "./g9.ts";
 export { resolveDeliveryRepair } from "./delivery-repair.ts";
