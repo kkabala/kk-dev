@@ -31,6 +31,11 @@ export type {
   OperationsDecision,
   RecordedMetric,
 } from "./operations.ts";
+export { evaluateRollout } from "./rollout.ts";
+export type {
+  RolloutDecision,
+  RolloutStage,
+} from "./rollout.ts";
 export { evaluateG9 } from "./g9.ts";
 export type { G9Decision } from "./g9.ts";
 export { resolveDeliveryRepair } from "./delivery-repair.ts";

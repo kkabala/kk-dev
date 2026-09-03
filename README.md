@@ -173,6 +173,11 @@ metrics are recorded rather than invented as zero. An emergency kill switch,
 a trust-boundary failure, or a severity-1/2 escape disables R0/R1 auto-merge
 for the affected scope.
 
+A representative-task evaluation bank must pass before a staged production
+rollout may advance. Rollout moves one healthy stage at a time from canary to
+subset to production and cannot skip. Demotion rehearsal decreases autonomy
+when quality worsens and does not mutate production.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

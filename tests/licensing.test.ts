@@ -183,6 +183,9 @@ const allowedPublishedPackagePaths = new Set([
   "dist/roles.d.ts",
   "dist/roles.js",
   "dist/roles.js.map",
+  "dist/rollout.d.ts",
+  "dist/rollout.js",
+  "dist/rollout.js.map",
   "dist/run-catalog.d.ts",
   "dist/run-catalog.js",
   "dist/run-catalog.js.map",
@@ -751,8 +754,8 @@ test("the published package carries its license and auditable upstream reuse pol
   );
   assert.equal(
     packedPackage.files.length,
-    112,
-    "the package must publish exactly the 112 reviewed artifacts",
+    115,
+    "the package must publish exactly the 115 reviewed artifacts",
   );
 
   const licenseEntry = packedPackage.files.find((file) => file.path === "LICENSE.md");

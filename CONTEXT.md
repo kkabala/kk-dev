@@ -215,3 +215,7 @@ _Avoid_: Self-approving PR, candidate-trusted runner
 **Kill switch**:
 An operator-only emergency control that disables R0/R1 auto-merge for the affected scope. Trust-boundary failures and severity-1/2 escapes engage the same disablement. Agents cannot operate it.
 _Avoid_: Agent merge toggle, silent quality ignore
+
+**Evaluation bank**:
+A frozen set of representative tasks that must pass before a staged production rollout may advance. Exoframe authorizes the next healthy canary, subset, or production stage; the project system owns deploy credentials. A demotion rehearsal decreases autonomy without mutating production.
+_Avoid_: Ad-hoc prod experiment, skip-to-prod, universal deployer
