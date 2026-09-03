@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S5.3 — Implement review, CODEOWNERS, and human-merge waits`
+`S5.4 — Implement queue and non-queue G7 candidate identity`
 
 ## Task ledger
 
@@ -62,7 +62,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S4.5 | Integrate declared pstack runtime-control and artifact capabilities | DONE | RED→GREEN: 3 pstack-runtime tests; declared browser, CLI, and runtime-control capabilities are granted only from public support; undeclared capabilities fail closed without patching pstack; pstack runtime artifacts stay advisory until the protected runner binds them; full `npm run check` with 164 tests; exact 82-artifact installed package | `GR-20260903-S4.5-R1`; `6d677b4` |
 | S5.1 | Define GitHub provider boundary and authenticated state model | DONE | RED→GREEN: 3 github tests; authenticated GitHub observations parse into a frozen provider state; unauthenticated or agent actors are rejected; a merged SHA is accepted only when GitHub reports the pull request merged; full `npm run check` with 167 tests; exact 85-artifact installed package | `GR-20260903-S5.1-R1`; `2266e37` |
 | S5.2 | Create/update draft PR and publish Exoframe checks | DONE | RED→GREEN: 3 github-pr tests; the first coherent candidate creates a draft GitHub PR; later candidates update the same draft with a new head SHA; `exoframe/engineering` and `exoframe/merge-ready` are published; a PR or green engineering check does not complete the run; full `npm run check` with 170 tests; exact 88-artifact installed package | `GR-20260903-S5.2-R1`; `a27e05a` |
-| S5.3 | Implement review, CODEOWNERS, and human-merge waits | AWAITING_REVIEW | RED→GREEN: 3 github-governance tests; waiting for a required review persists without an active agent; review-requested changes return to pstack; zero GitHub-required reviewers still wait for human merge authorization under `human_merge`; full `npm run check` with 173 tests; exact 91-artifact installed package | `GR-20260903-S5.3-R1`; pending commit |
+| S5.3 | Implement review, CODEOWNERS, and human-merge waits | DONE | RED→GREEN: 3 github-governance tests; waiting for a required review persists without an active agent; review-requested changes return to pstack; zero GitHub-required reviewers still wait for human merge authorization under `human_merge`; full `npm run check` with 173 tests; exact 91-artifact installed package | `GR-20260903-S5.3-R1`; `ead86f5` |
 | S5.4 | Implement queue and non-queue G7 candidate identity | NOT_STARTED | queue/squash/rebase candidate tests | pending |
 | S5.5 | Implement R0/R1 promotion, GitHub auto-merge, and demotion | NOT_STARTED | threshold and kill-switch tests | pending |
 | S6.1 | Define release/delivery observation boundary and G8 | NOT_STARTED | identity/health tests | pending |
@@ -159,3 +159,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `6d677b4` | S4.5 declared pstack runtime-control and artifact capabilities | browser, CLI, and runtime-control are granted only from public support; undeclared capabilities fail closed; pstack artifacts stay advisory until the protected runner binds them; 3 pstack-runtime tests, 164 full-suite tests, and the 82-artifact package are green | `ACCEPT` (`GR-20260903-S4.5-R1`) |
 | `2266e37` | S5.1 GitHub provider boundary and authenticated state | authenticated GitHub observations parse into frozen provider state; unauthenticated or agent actors are rejected; merged SHA only when GitHub reports merged; 3 github tests, 167 full-suite tests, and the 85-artifact package are green | `ACCEPT` (`GR-20260903-S5.1-R1`) |
 | `a27e05a` | S5.2 draft PR create/update and Exoframe checks | first coherent candidate creates a draft PR; later candidates update the same number with a new head SHA; `exoframe/engineering` and `exoframe/merge-ready` are published; a PR or green engineering check does not complete the run; 3 github-pr tests, 170 full-suite tests, and the 88-artifact package are green | `ACCEPT` (`GR-20260903-S5.2-R1`) |
+| `ead86f5` | S5.3 review, CODEOWNERS, and human-merge waits | waiting for a required review persists without an active agent; review-requested changes return to pstack; zero GitHub-required reviewers still wait for human merge under `human_merge`; 3 github-governance tests, 173 full-suite tests, and the 91-artifact package are green | `ACCEPT` (`GR-20260903-S5.3-R1`) |
