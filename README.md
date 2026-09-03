@@ -129,6 +129,11 @@ GitHub provider state is accepted only from an authenticated GitHub actor.
 An agent cannot invent merge completion; a merged SHA is present only when
 GitHub reports the pull request as merged.
 
+The first coherent candidate creates a draft pull request. Later candidates
+update that same draft. Exoframe publishes `exoframe/engineering` and
+`exoframe/merge-ready` checks. A pull request or green engineering check does
+not complete the run.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

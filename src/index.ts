@@ -172,5 +172,10 @@ export type {
   GithubPullRequest,
   GithubState,
 } from "./github.ts";
+export { syncDraftPullRequest } from "./github-pr.ts";
+export type {
+  DraftPullRequestSync,
+  ExoframeCheck,
+} from "./github-pr.ts";
 export { buildBounce } from "./bounce.ts";
 export type { BounceDecision, RepairBounce } from "./bounce.ts";

@@ -179,3 +179,7 @@ _Avoid_: Undocumented internals, authoritative screenshot
 **GitHub state**:
 Authenticated GitHub review, protection, queue, and merge observations. Agents cannot invent this state or merge directly.
 _Avoid_: Agent merge, unauthenticated check
+
+**Draft pull request**:
+The GitHub pull request Exoframe creates or updates for a coherent candidate; it is a stable review surface, not run completion.
+_Avoid_: Done, merged, CI green
