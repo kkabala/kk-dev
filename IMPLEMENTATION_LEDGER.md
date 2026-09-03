@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S4.3 — Collect candidate output without trusting advisory PASS`
+`S4.4 — Implement repair bounces and repeated-fingerprint escalation`
 
 ## Task ledger
 
@@ -57,7 +57,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S3.6 | Implement `surfaces explain` and `policy check` CLI | DONE | RED→GREEN: 2 surface CLI tests plus help/malformed updates; `surfaces explain` reports covering surface and path category; `policy check` reports weakening when a proposal drops hypotheses/risk and stays clean otherwise; full `npm run check` with 149 tests; exact 67-artifact installed package | `GR-20260902-S3.6-R1`; `f42d438` |
 | S4.1 | Define pstack capability manifest and health check | DONE | RED→GREEN: 3 pstack-health tests; compatible public manifest reports supported capabilities without mutation; a missing required capability fails with an actionable adapter error and does not patch pstack; unmatched engine identity is a missing required capability; full `npm run check` with 152 tests; exact 70-artifact installed package | `GR-20260902-S4.1-R1`; `4d75f07` |
 | S4.2 | Implement Exoframe-to-pstack assignment adapter | DONE | RED→GREEN: 3 pstack-assignment tests; intent, risk, surfaces, contracts, and gates translate into the bounded assignment contract; secrets, goals, and implementation recipes never enter the assignment; identical inputs serialize identically; full `npm run check` with 155 tests; exact 73-artifact installed package | `GR-20260902-S4.2-R1`; `807e00a` |
-| S4.3 | Collect candidate output without trusting advisory PASS | AWAITING_REVIEW | RED→GREEN: 3 pstack-candidate tests; pstack may return code, tests, and a PASS claim but the collected candidate is not authoritative and cannot satisfy a required gate; a PASS claim cannot write authoritative evidence; YAML PASS text and smuggled `authoritative` stay advisory or are rejected; full `npm run check` with 158 tests; exact 76-artifact installed package | `GR-20260903-S4.3-R1`; pending commit |
+| S4.3 | Collect candidate output without trusting advisory PASS | DONE | RED→GREEN: 3 pstack-candidate tests; pstack may return code, tests, and a PASS claim but the collected candidate is not authoritative and cannot satisfy a required gate; a PASS claim cannot write authoritative evidence; YAML PASS text and smuggled `authoritative` stay advisory or are rejected; full `npm run check` with 158 tests; exact 76-artifact installed package | `GR-20260903-S4.3-R1`; `17e5430` |
 | S4.4 | Implement repair bounces and repeated-fingerprint escalation | NOT_STARTED | bounce-loop acceptance tests | pending |
 | S4.5 | Integrate declared pstack runtime-control and artifact capabilities | NOT_STARTED | browser/CLI/runtime artifact contract tests | pending |
 | S5.1 | Define GitHub provider boundary and authenticated state model | NOT_STARTED | provider contract tests | pending |
@@ -154,3 +154,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `f42d438` | S3.6 surfaces explain and policy check CLI | surfaces explain reports covering surface and path category; policy check reports weakening when a proposal drops hypotheses or risk; 2 surface CLI tests, 149 full-suite tests, and the 67-artifact package are green | `ACCEPT` (`GR-20260902-S3.6-R1`) |
 | `4d75f07` | S4.1 pstack capability manifest and health check | compatible public manifest reports supported capabilities without mutation; a missing required capability fails with an actionable adapter error and does not patch pstack; 3 pstack-health tests, 152 full-suite tests, and the 70-artifact package are green | `ACCEPT` (`GR-20260902-S4.1-R1`) |
 | `807e00a` | S4.2 Exoframe-to-pstack assignment adapter | intent, risk, surfaces, contracts, and gates translate into the bounded assignment contract; secrets, goals, and recipes never enter the assignment; 3 pstack-assignment tests, 155 full-suite tests, and the 73-artifact package are green | `ACCEPT` (`GR-20260902-S4.2-R1`) |
+| `17e5430` | S4.3 collect candidate output without trusting advisory PASS | pstack may return code, tests, and a PASS claim but the collected candidate is not authoritative and cannot write PASS; 3 pstack-candidate tests, 158 full-suite tests, and the 76-artifact package are green | `ACCEPT` (`GR-20260903-S4.3-R1`) |
