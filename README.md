@@ -152,6 +152,10 @@ G8 observes the released commit, environment, route, and declared health.
 No delivery target makes G8 not applicable. A SHA or environment mismatch
 fails G8. Exoframe does not deploy.
 
+An unhealthy delivery requires observed rollback and a distinct linked repair
+run. The original run waits in `WAITING_FOR_REPAIR` and is not DONE. When the
+repair is delivered, the original run returns to delivery verification.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

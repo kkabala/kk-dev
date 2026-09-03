@@ -199,3 +199,7 @@ _Avoid_: Agent merge, privileged merge API
 **Delivery observation**:
 Authenticated evidence of the released commit, environment, route, and declared health used by G8. Exoframe observes; it does not deploy.
 _Avoid_: Universal deployer, agent health claim
+
+**Linked repair run**:
+A new run opened when delivery is unhealthy; the original run waits until that repair is delivered.
+_Avoid_: Retry until green, original DONE
