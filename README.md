@@ -166,6 +166,13 @@ unknown production is provisional R2; trust-boundary expansion needs approval.
 Secrets are redacted before storage. Oversized, unallowlisted, or escaping
 artifacts are rejected without leaking their content.
 
+Evidence expires after its retention window and expired bodies are not kept.
+Authenticated control-plane writers may append audit records; agents cannot
+rewrite them. Active human time, cycle time, flake, escape, and autonomy
+metrics are recorded rather than invented as zero. An emergency kill switch,
+a trust-boundary failure, or a severity-1/2 escape disables R0/R1 auto-merge
+for the affected scope.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

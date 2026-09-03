@@ -211,3 +211,7 @@ _Avoid_: Patch forward only, original reopened
 **Base judges candidate**:
 Trust-boundary changes to policy, templates, runner, or evaluator are judged by the accepted base definitions. Candidate-controlled code cannot approve itself.
 _Avoid_: Self-approving PR, candidate-trusted runner
+
+**Kill switch**:
+An operator-only emergency control that disables R0/R1 auto-merge for the affected scope. Trust-boundary failures and severity-1/2 escapes engage the same disablement. Agents cannot operate it.
+_Avoid_: Agent merge toggle, silent quality ignore

@@ -26,6 +26,11 @@ export type {
   HardeningDecision,
   ScopeDecision,
 } from "./hardening.ts";
+export { evaluateOperations } from "./operations.ts";
+export type {
+  OperationsDecision,
+  RecordedMetric,
+} from "./operations.ts";
 export { evaluateG9 } from "./g9.ts";
 export type { G9Decision } from "./g9.ts";
 export { resolveDeliveryRepair } from "./delivery-repair.ts";
