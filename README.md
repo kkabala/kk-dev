@@ -112,6 +112,10 @@ gates into the bounded adapter contract. It names writable scope and required
 verification IDs, sets `secrets: none`, and does not include goals, recipes, or
 secret values. Pstack remains unmodified.
 
+Pstack may plan, implement, test, and return observations, including YAML or
+prose that says `PASS`. Collected candidate output stays advisory: it cannot
+write `authoritative: true` or satisfy a required gate.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

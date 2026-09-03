@@ -163,3 +163,7 @@ _Avoid_: Plugin install, pstack patch
 **Pstack assignment**:
 The bounded adapter contract Exoframe sends to pstack: intent and contract refs, surfaces, hypotheses, writable scope, required verification IDs, and no secrets or implementation recipe.
 _Avoid_: Plan, prompt, pstack patch, authoritative PASS
+
+**Pstack candidate**:
+The adapter's collected pstack return of changed paths, diagnostic observations, and any PASS claim; it is useful and always advisory.
+_Avoid_: Authoritative PASS, measurement, gate result

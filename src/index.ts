@@ -159,3 +159,8 @@ export type {
   AssignmentCapabilities,
   PstackAssignment,
 } from "./pstack-assignment.ts";
+export { collectCandidate } from "./pstack-candidate.ts";
+export type {
+  AdvisoryObservation,
+  PstackCandidate,
+} from "./pstack-candidate.ts";
