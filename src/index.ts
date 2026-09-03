@@ -166,6 +166,14 @@ export type {
 } from "./pstack-candidate.ts";
 export { resolvePstackRuntime } from "./pstack-runtime.ts";
 export type { PstackRuntime } from "./pstack-runtime.ts";
+export { MERGE_METHODS, resolveMergeCandidate } from "./github-g7.ts";
+export type {
+  MergeCandidateDecision,
+  MergeCandidateIdentity,
+  MergeMethod,
+  QueueMergeCandidate,
+  TupleMergeCandidate,
+} from "./github-g7.ts";
 export { evaluateGovernance } from "./github-governance.ts";
 export type {
   GovernanceDecision,

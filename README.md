@@ -139,6 +139,11 @@ Required GitHub reviews, CODEOWNERS, and stale approvals keep the run in
 to pstack. Zero required reviewers still wait in `WAITING_FOR_MERGE` while
 policy remains `human_merge`.
 
+G7 binds either a queue-generated commit SHA or the non-queue tuple of base
+SHA, head SHA, merge method, and candidate tree. A change makes that identity
+stale. After a non-queue land, the landed tree must match; a mismatch fails
+closed. G7 failure returns to pstack.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

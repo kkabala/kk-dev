@@ -187,3 +187,7 @@ _Avoid_: Done, merged, CI green
 **Governance wait**:
 A persisted run waiting for required GitHub review, CODEOWNERS, approval freshness, or human merge authorization, without an active agent.
 _Avoid_: Done, agent idle, skip human merge
+
+**G7 candidate identity**:
+The exact merge candidate G7 measures: a queue-generated SHA, or the non-queue tuple of base SHA, head SHA, merge method, and candidate tree digest.
+_Avoid_: PR head, latest main, agent merge
