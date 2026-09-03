@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S4.5 — Integrate declared pstack runtime-control and artifact capabilities`
+`S5.1 — Define GitHub provider boundary and authenticated state model`
 
 ## Task ledger
 
@@ -59,7 +59,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S4.2 | Implement Exoframe-to-pstack assignment adapter | DONE | RED→GREEN: 3 pstack-assignment tests; intent, risk, surfaces, contracts, and gates translate into the bounded assignment contract; secrets, goals, and implementation recipes never enter the assignment; identical inputs serialize identically; full `npm run check` with 155 tests; exact 73-artifact installed package | `GR-20260902-S4.2-R1`; `807e00a` |
 | S4.3 | Collect candidate output without trusting advisory PASS | DONE | RED→GREEN: 3 pstack-candidate tests; pstack may return code, tests, and a PASS claim but the collected candidate is not authoritative and cannot satisfy a required gate; a PASS claim cannot write authoritative evidence; YAML PASS text and smuggled `authoritative` stay advisory or are rejected; full `npm run check` with 158 tests; exact 76-artifact installed package | `GR-20260903-S4.3-R1`; `17e5430` |
 | S4.4 | Implement repair bounces and repeated-fingerprint escalation | DONE | RED→GREEN: 3 bounce tests; a failed gate creates a minimal bounce that reruns only affected gates; PASS and BLOCKED do not bounce; three equivalent fingerprints emit one human packet instead of another bounce; review-requested changes return to pstack and replay affected gates; full `npm run check` with 161 tests; exact 79-artifact installed package | `GR-20260903-S4.4-R1`; `05331a5` |
-| S4.5 | Integrate declared pstack runtime-control and artifact capabilities | AWAITING_REVIEW | RED→GREEN: 3 pstack-runtime tests; declared browser, CLI, and runtime-control capabilities are granted only from public support; undeclared capabilities fail closed without patching pstack; pstack runtime artifacts stay advisory until the protected runner binds them; full `npm run check` with 164 tests; exact 82-artifact installed package | `GR-20260903-S4.5-R1`; pending commit |
+| S4.5 | Integrate declared pstack runtime-control and artifact capabilities | DONE | RED→GREEN: 3 pstack-runtime tests; declared browser, CLI, and runtime-control capabilities are granted only from public support; undeclared capabilities fail closed without patching pstack; pstack runtime artifacts stay advisory until the protected runner binds them; full `npm run check` with 164 tests; exact 82-artifact installed package | `GR-20260903-S4.5-R1`; `6d677b4` |
 | S5.1 | Define GitHub provider boundary and authenticated state model | NOT_STARTED | provider contract tests | pending |
 | S5.2 | Create/update draft PR and publish Exoframe checks | NOT_STARTED | GitHub adapter tests | pending |
 | S5.3 | Implement review, CODEOWNERS, and human-merge waits | NOT_STARTED | governance-state tests | pending |
@@ -156,3 +156,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `807e00a` | S4.2 Exoframe-to-pstack assignment adapter | intent, risk, surfaces, contracts, and gates translate into the bounded assignment contract; secrets, goals, and recipes never enter the assignment; 3 pstack-assignment tests, 155 full-suite tests, and the 73-artifact package are green | `ACCEPT` (`GR-20260902-S4.2-R1`) |
 | `17e5430` | S4.3 collect candidate output without trusting advisory PASS | pstack may return code, tests, and a PASS claim but the collected candidate is not authoritative and cannot write PASS; 3 pstack-candidate tests, 158 full-suite tests, and the 76-artifact package are green | `ACCEPT` (`GR-20260903-S4.3-R1`) |
 | `05331a5` | S4.4 repair bounces and repeated-fingerprint escalation | a failed gate creates a minimal bounce that reruns only affected gates; three equivalent fingerprints emit one human packet; review-requested changes return to pstack; 3 bounce tests, 161 full-suite tests, and the 79-artifact package are green | `ACCEPT` (`GR-20260903-S4.4-R1`) |
+| `6d677b4` | S4.5 declared pstack runtime-control and artifact capabilities | browser, CLI, and runtime-control are granted only from public support; undeclared capabilities fail closed; pstack artifacts stay advisory until the protected runner binds them; 3 pstack-runtime tests, 164 full-suite tests, and the 82-artifact package are green | `ACCEPT` (`GR-20260903-S4.5-R1`) |
