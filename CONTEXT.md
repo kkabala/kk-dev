@@ -227,3 +227,7 @@ _Avoid_: Checklist-only coverage, undocumented gap
 **End-to-end path**:
 The protected sequence from a clear task through pstack assignment, draft PR, GitHub merge, and G8. Pstack PASS is not authoritative and an agent never merges.
 _Avoid_: Agent merge, pstack-trusted PASS, PR-is-done
+
+**Final audit**:
+The last MVP check that documentation matches the CLI, pstack stays unmodified and adapter-only, agents cannot PASS or merge, and restart/dead-lock recovery remains fail-closed.
+_Avoid_: Checklist without evidence, patched pstack

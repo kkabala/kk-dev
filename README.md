@@ -41,6 +41,19 @@ node dist/bin.js evidence show <gate-id>
 node dist/bin.js gate run --task <task-id> --gate <gate-id>
 ```
 
+The installed command matches `exoframe --help`:
+
+```text
+exoframe run <task text>
+exoframe status [task-id]
+exoframe explain [task-id]
+exoframe resume <task-id>
+exoframe evidence show <gate-id>
+exoframe gate run --task <task-id> --gate <gate-id>
+exoframe surfaces explain <path>
+exoframe policy check
+```
+
 `run` emits the new task, its durable checkpoint, and the automatic intake
 result as JSON. A clear requested outcome normalizes into intent and remains
 `INTAKE`. A blocking product choice emits one decision packet and moves the run

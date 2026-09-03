@@ -28,6 +28,8 @@ export type {
 } from "./hardening.ts";
 export { evaluateEndToEnd } from "./e2e.ts";
 export type { EndToEndDecision } from "./e2e.ts";
+export { DOCUMENTED_COMMANDS, evaluateAudit } from "./audit.ts";
+export type { AuditDecision } from "./audit.ts";
 export { evaluateOperations } from "./operations.ts";
 export type {
   OperationsDecision,
