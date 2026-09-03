@@ -195,3 +195,7 @@ _Avoid_: PR head, latest main, agent merge
 **GitHub auto-merge**:
 The native GitHub merge mechanism Exoframe may enable for eligible promoted R0/R1 work; agents never merge.
 _Avoid_: Agent merge, privileged merge API
+
+**Delivery observation**:
+Authenticated evidence of the released commit, environment, route, and declared health used by G8. Exoframe observes; it does not deploy.
+_Avoid_: Universal deployer, agent health claim

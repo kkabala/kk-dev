@@ -148,6 +148,10 @@ Eligible promoted R0/R1 work may enable GitHub auto-merge. R2/R3 work and
 tasks with a live exception stay in `human_merge`. A trust-boundary failure
 or severity-1/2 escape disables auto-merge. An agent never merges.
 
+G8 observes the released commit, environment, route, and declared health.
+No delivery target makes G8 not applicable. A SHA or environment mismatch
+fails G8. Exoframe does not deploy.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

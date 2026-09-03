@@ -21,6 +21,12 @@ export type {
   Task,
   TaskProductDecisionPacket,
 } from "./domain.ts";
+export { observeDelivery } from "./delivery.ts";
+export type {
+  DeliveryActor,
+  DeliveryObservation,
+  DeliveryTarget,
+} from "./delivery.ts";
 export {
   discoverRepositoryFacts,
   isIntakePacket,
