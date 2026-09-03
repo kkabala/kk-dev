@@ -166,5 +166,11 @@ export type {
 } from "./pstack-candidate.ts";
 export { resolvePstackRuntime } from "./pstack-runtime.ts";
 export type { PstackRuntime } from "./pstack-runtime.ts";
+export { parseGithubState } from "./github.ts";
+export type {
+  GithubActor,
+  GithubPullRequest,
+  GithubState,
+} from "./github.ts";
 export { buildBounce } from "./bounce.ts";
 export type { BounceDecision, RepairBounce } from "./bounce.ts";

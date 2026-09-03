@@ -125,6 +125,10 @@ Browser, CLI, and runtime-control tools are granted only when those capability
 IDs are declared in the public pstack support list. Screenshots and other
 pstack-produced files stay advisory until the protected runner binds them.
 
+GitHub provider state is accepted only from an authenticated GitHub actor.
+An agent cannot invent merge completion; a merged SHA is present only when
+GitHub reports the pull request as merged.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

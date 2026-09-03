@@ -175,3 +175,7 @@ _Avoid_: Retry until green, infrastructure retry, full rerun
 **Pstack runtime**:
 Declared browser, CLI, and process-control capabilities the adapter may grant from public pstack support; artifacts from those tools stay advisory until the protected runner binds them.
 _Avoid_: Undocumented internals, authoritative screenshot
+
+**GitHub state**:
+Authenticated GitHub review, protection, queue, and merge observations. Agents cannot invent this state or merge directly.
+_Avoid_: Agent merge, unauthenticated check
