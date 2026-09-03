@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`S6.2 — Implement rollback observation and linked repair runs`
+`S6.3 — Implement escaped-defect records and G9 replay`
 
 ## Task ledger
 
@@ -66,7 +66,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S5.4 | Implement queue and non-queue G7 candidate identity | DONE | RED→GREEN: 3 github-g7 tests; G7 evaluates an exact queue-generated candidate and failure returns to pstack; without a queue, G7 binds base SHA, head SHA, merge method, and candidate tree; a changed tuple is stale and a landed-tree mismatch fails closed; full `npm run check` with 176 tests; exact 94-artifact installed package | `GR-20260903-S5.4-R1`; `c71a243` |
 | S5.5 | Implement R0/R1 promotion, GitHub auto-merge, and demotion | DONE | RED→GREEN: 3 github-auto-merge tests; eligible promoted R0/R1 work enables GitHub auto-merge and never an agent merge; R2/R3 and live exceptions stay `human_merge`; trust-boundary failure, severity-1/2 escape, two unreplayed escapes, or flake above 15% disable auto-merge; full `npm run check` with 179 tests; exact 97-artifact installed package | `GR-20260903-S5.5-R1`; `9fc175b` |
 | S6.1 | Define release/delivery observation boundary and G8 | DONE | RED→GREEN: 3 delivery tests; a healthy expected deployment completes G8; no delivery target marks G8 not applicable; a deployed SHA or environment mismatch fails G8; unauthenticated or agent actors are rejected; full `npm run check` with 182 tests; exact 100-artifact installed package | `GR-20260903-S6.1-R1`; `b34d55c` |
-| S6.2 | Implement rollback observation and linked repair runs | AWAITING_REVIEW | RED→GREEN: 3 delivery-repair tests; an unhealthy delivery invokes rollback and a distinct linked repair; the original run waits in `WAITING_FOR_REPAIR` and is not DONE; linked repair delivery returns the original run to delivery verification; full `npm run check` with 185 tests; exact 103-artifact installed package | `GR-20260903-S6.2-R1`; pending commit |
+| S6.2 | Implement rollback observation and linked repair runs | DONE | RED→GREEN: 3 delivery-repair tests; an unhealthy delivery invokes rollback and a distinct linked repair; the original run waits in `WAITING_FOR_REPAIR` and is not DONE; linked repair delivery returns the original run to delivery verification; full `npm run check` with 185 tests; exact 103-artifact installed package | `GR-20260903-S6.2-R1`; `ce0df92` |
 | S6.3 | Implement escaped-defect records and G9 replay | NOT_STARTED | defective-snapshot replay tests | pending |
 | S6.4 | Harden scope, secrets, artifacts, and base-judges-candidate policy | NOT_STARTED | security acceptance tests | pending |
 | S6.5 | Add retention, audit, metrics, and emergency kill switch | NOT_STARTED | operations tests | pending |
@@ -163,3 +163,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `c71a243` | S5.4 queue and non-queue G7 candidate identity | G7 binds a queue-generated SHA or the non-queue tuple of base SHA, head SHA, merge method, and candidate tree; a changed tuple is stale; a landed-tree mismatch fails closed; G7 FAIL returns to pstack; 3 github-g7 tests, 176 full-suite tests, and the 94-artifact package are green | `ACCEPT` (`GR-20260903-S5.4-R1`) |
 | `9fc175b` | S5.5 R0/R1 promotion, GitHub auto-merge, and demotion | eligible R0/R1 enables GitHub auto-merge and never an agent merge; R2/R3 and live exceptions stay `human_merge`; trust-boundary failure, severity-1/2 escape, two unreplayed escapes, or flake above 15% disable auto-merge; 3 github-auto-merge tests, 179 full-suite tests, and the 97-artifact package are green | `ACCEPT` (`GR-20260903-S5.5-R1`) |
 | `b34d55c` | S6.1 G8 delivery observation identity and health | healthy expected deployment completes G8; no delivery target is not applicable; SHA or environment mismatch fails G8; unauthenticated or agent actors are rejected; 3 delivery tests, 182 full-suite tests, and the 100-artifact package are green | `ACCEPT` (`GR-20260903-S6.1-R1`) |
+| `ce0df92` | S6.2 rollback observation and linked repair runs | unhealthy delivery invokes rollback and a distinct linked repair; the original run waits and is not DONE; repair delivery returns the original run to delivery verification; 3 delivery-repair tests, 185 full-suite tests, and the 103-artifact package are green | `ACCEPT` (`GR-20260903-S6.2-R1`) |
