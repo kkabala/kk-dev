@@ -26,6 +26,8 @@ export type {
   HardeningDecision,
   ScopeDecision,
 } from "./hardening.ts";
+export { evaluateEndToEnd } from "./e2e.ts";
+export type { EndToEndDecision } from "./e2e.ts";
 export { evaluateOperations } from "./operations.ts";
 export type {
   OperationsDecision,

@@ -181,6 +181,11 @@ when quality worsens and does not mutate production.
 All 41 specification acceptance scenarios map to executable tests. The ledger
 names each owning slice; the scenario map names the tests.
 
+A clear task is demonstrated through pstack assignment, a draft pull request,
+GitHub merge, and healthy G8. A pull request and green engineering check do
+not complete the run. Pstack PASS is not authoritative and an agent never
+merges.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

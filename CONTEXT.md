@@ -223,3 +223,7 @@ _Avoid_: Ad-hoc prod experiment, skip-to-prod, universal deployer
 **Acceptance scenario**:
 One of the 41 required specification cases. The ledger names the owning slice; the scenario map names the executable tests that prove it.
 _Avoid_: Checklist-only coverage, undocumented gap
+
+**End-to-end path**:
+The protected sequence from a clear task through pstack assignment, draft PR, GitHub merge, and G8. Pstack PASS is not authoritative and an agent never merges.
+_Avoid_: Agent merge, pstack-trusted PASS, PR-is-done
