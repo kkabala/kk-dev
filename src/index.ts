@@ -166,6 +166,11 @@ export type {
 } from "./pstack-candidate.ts";
 export { resolvePstackRuntime } from "./pstack-runtime.ts";
 export type { PstackRuntime } from "./pstack-runtime.ts";
+export { evaluateAutoMerge } from "./github-auto-merge.ts";
+export type {
+  AutoMergeAction,
+  AutoMergeDecision,
+} from "./github-auto-merge.ts";
 export { MERGE_METHODS, resolveMergeCandidate } from "./github-g7.ts";
 export type {
   MergeCandidateDecision,

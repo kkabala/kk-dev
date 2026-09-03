@@ -191,3 +191,7 @@ _Avoid_: Done, agent idle, skip human merge
 **G7 candidate identity**:
 The exact merge candidate G7 measures: a queue-generated SHA, or the non-queue tuple of base SHA, head SHA, merge method, and candidate tree digest.
 _Avoid_: PR head, latest main, agent merge
+
+**GitHub auto-merge**:
+The native GitHub merge mechanism Exoframe may enable for eligible promoted R0/R1 work; agents never merge.
+_Avoid_: Agent merge, privileged merge API
