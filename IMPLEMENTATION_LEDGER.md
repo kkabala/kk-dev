@@ -23,7 +23,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 
 ## Current milestone
 
-`F1.3 — Complete final security, recovery, and documentation audit`
+`MVP complete`
 
 ## Task ledger
 
@@ -73,7 +73,7 @@ This ledger is the authoritative implementation checklist for `kk-dev-final-spec
 | S6.6 | Build the evaluation bank and staged production rollout controls | DONE | RED→GREEN: 3 rollout tests; the evaluation bank is complete only when every representative task has passed; staged production rollout advances one healthy stage at a time and cannot skip; demotion rehearsal decreases autonomy when quality worsens without mutating production; full `npm run check` with 197 tests; exact 115-artifact installed package | `GR-20260903-S6.6-R1`; `1af6a2c` |
 | F1.1 | Map all 41 specification scenarios to executable tests | DONE | RED→GREEN across R1 REJECT: scenario iteration uses `entries()` so `noUncheckedIndexedAccess` cannot read `owning_slices` off an unchecked index; 3 scenario-map tests; all 41 specification scenarios have consecutive ids and ledger owning slices; every scenario maps to at least one executable test that exists in the repository; scenario statements match specification section 26 with no gaps; full `npm run check` with 200 tests; exact 118-artifact installed package | `GR-20260903-F1.1-R2`; `dc95376` |
 | F1.2 | Run full end-to-end task → pstack → PR → merge → G8 scenario | DONE | RED→GREEN: 3 end-to-end tests; a clear task proceeds through pstack assignment, a draft PR, merge, and healthy G8; a pull request and green engineering check do not complete the run before G8; pstack PASS is not authoritative and an agent cannot merge; full `npm run check` with 203 tests; exact 121-artifact installed package | `GR-20260903-F1.2-R1`; `8f4750f` |
-| F1.3 | Complete final security, recovery, and documentation audit | AWAITING_REVIEW | RED→GREEN: 3 audit tests; documentation explains the run before implementation detail and matches CLI help; pstack remains unmodified and is accessed only through the Exoframe adapter; agents cannot create authoritative PASS or merge and recovery stays fail-closed; full `npm run check` with 206 tests; exact 124-artifact installed package | `GR-20260903-F1.3-R1`; pending commit |
+| F1.3 | Complete final security, recovery, and documentation audit | DONE | RED→GREEN: 3 audit tests; documentation explains the run before implementation detail and matches CLI help; pstack remains unmodified and is accessed only through the Exoframe adapter; agents cannot create authoritative PASS or merge and recovery stays fail-closed; full `npm run check` with 206 tests; exact 124-artifact installed package | `GR-20260903-F1.3-R1`; `9633e43` |
 
 ## Acceptance-scenario ownership
 
@@ -170,3 +170,4 @@ Every required scenario in specification section 26 has an implementation owner.
 | `1af6a2c` | S6.6 evaluation bank and staged production rollout | the representative-task bank is complete only when every required task has passed; rollout advances one healthy canary/subset/production stage and cannot skip; demotion rehearsal decreases autonomy without mutating production; 3 rollout tests, 197 full-suite tests, and the 115-artifact package are green | `ACCEPT` (`GR-20260903-S6.6-R1`) |
 | `dc95376` | F1.1 41-scenario executable coverage map | all 41 specification scenarios have consecutive ids matching the ledger owners; every scenario maps to an existing executable test; statements match section 26 with no gaps; 3 scenario-map tests, 200 full-suite tests, and the 118-artifact package are green | `ACCEPT` (`GR-20260903-F1.1-R2`) |
 | `8f4750f` | F1.2 end-to-end task → pstack → PR → merge → G8 | a clear task proceeds through protected adapters to healthy G8; a PR and green engineering check do not complete the run; pstack PASS is not authoritative and an agent cannot merge; 3 end-to-end tests, 203 full-suite tests, and the 121-artifact package are green | `ACCEPT` (`GR-20260903-F1.2-R1`) |
+| `9633e43` | F1.3 final security, recovery, and documentation audit | documentation matches CLI help; pstack stays unmodified and adapter-only; agents cannot create authoritative PASS or merge; restart and dead-lock recovery stay fail-closed; 3 audit tests, 206 full-suite tests, and the 124-artifact package are green | `ACCEPT` (`GR-20260903-F1.3-R1`) |
