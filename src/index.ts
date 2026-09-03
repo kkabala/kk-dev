@@ -21,6 +21,8 @@ export type {
   Task,
   TaskProductDecisionPacket,
 } from "./domain.ts";
+export { evaluateG9 } from "./g9.ts";
+export type { G9Decision } from "./g9.ts";
 export { resolveDeliveryRepair } from "./delivery-repair.ts";
 export type { DeliveryRepairDecision } from "./delivery-repair.ts";
 export { observeDelivery } from "./delivery.ts";

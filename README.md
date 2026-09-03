@@ -156,6 +156,10 @@ An unhealthy delivery requires observed rollback and a distinct linked repair
 run. The original run waits in `WAITING_FOR_REPAIR` and is not DONE. When the
 repair is delivered, the original run returns to delivery verification.
 
+An escaped defect after DONE opens a linked learning run. G9 passes only when
+a durable fix exists, the preserved defective snapshot fails, the repaired
+snapshot passes, and the missed gate and risk are recorded.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

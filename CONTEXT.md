@@ -203,3 +203,7 @@ _Avoid_: Universal deployer, agent health claim
 **Linked repair run**:
 A new run opened when delivery is unhealthy; the original run waits until that repair is delivered.
 _Avoid_: Retry until green, original DONE
+
+**Escaped defect**:
+A production failure found after DONE. It opens a linked learning run that cannot close until G9 replays the defective snapshot.
+_Avoid_: Patch forward only, original reopened
