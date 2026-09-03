@@ -164,3 +164,5 @@ export type {
   AdvisoryObservation,
   PstackCandidate,
 } from "./pstack-candidate.ts";
+export { buildBounce } from "./bounce.ts";
+export type { BounceDecision, RepairBounce } from "./bounce.ts";

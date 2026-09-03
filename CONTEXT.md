@@ -167,3 +167,7 @@ _Avoid_: Plan, prompt, pstack patch, authoritative PASS
 **Pstack candidate**:
 The adapter's collected pstack return of changed paths, diagnostic observations, and any PASS claim; it is useful and always advisory.
 _Avoid_: Authoritative PASS, measurement, gate result
+
+**Bounce**:
+A minimal repair assignment created from a failed or flaky gate, or from review-requested changes, that returns to pstack with only the affected rerun scope.
+_Avoid_: Retry until green, infrastructure retry, full rerun

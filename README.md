@@ -116,6 +116,11 @@ Pstack may plan, implement, test, and return observations, including YAML or
 prose that says `PASS`. Collected candidate output stays advisory: it cannot
 write `authoritative: true` or satisfy a required gate.
 
+A failed or flaky gate creates a minimal bounce back to pstack that reruns only
+affected gates. Three equivalent failure fingerprints produce one human packet
+instead of another bounce. Review-requested changes also return to pstack and
+replay the affected protected gates.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so
