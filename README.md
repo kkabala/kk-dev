@@ -121,6 +121,10 @@ affected gates. Three equivalent failure fingerprints produce one human packet
 instead of another bounce. Review-requested changes also return to pstack and
 replay the affected protected gates.
 
+Browser, CLI, and runtime-control tools are granted only when those capability
+IDs are declared in the public pstack support list. Screenshots and other
+pstack-produced files stay advisory until the protected runner binds them.
+
 State is stored outside the candidate checkout by default, under the current
 user's `~/.exoframe/state/workspaces/` control-plane directory. Each Git
 checkout uses a key derived from its canonical root and filesystem identity, so

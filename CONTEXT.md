@@ -171,3 +171,7 @@ _Avoid_: Authoritative PASS, measurement, gate result
 **Bounce**:
 A minimal repair assignment created from a failed or flaky gate, or from review-requested changes, that returns to pstack with only the affected rerun scope.
 _Avoid_: Retry until green, infrastructure retry, full rerun
+
+**Pstack runtime**:
+Declared browser, CLI, and process-control capabilities the adapter may grant from public pstack support; artifacts from those tools stay advisory until the protected runner binds them.
+_Avoid_: Undocumented internals, authoritative screenshot

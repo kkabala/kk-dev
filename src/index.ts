@@ -164,5 +164,7 @@ export type {
   AdvisoryObservation,
   PstackCandidate,
 } from "./pstack-candidate.ts";
+export { resolvePstackRuntime } from "./pstack-runtime.ts";
+export type { PstackRuntime } from "./pstack-runtime.ts";
 export { buildBounce } from "./bounce.ts";
 export type { BounceDecision, RepairBounce } from "./bounce.ts";
