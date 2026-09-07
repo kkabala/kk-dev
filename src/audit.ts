@@ -7,6 +7,7 @@ export const DOCUMENTED_COMMANDS: readonly string[] = Object.freeze([
   "exoframe gate run --task <task-id> --gate <gate-id>",
   "exoframe surfaces explain <path>",
   "exoframe policy check",
+  "exoframe risk-bootstrap",
 ]);
 
 export type AuditDecision = Readonly<{
