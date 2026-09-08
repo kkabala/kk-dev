@@ -494,7 +494,23 @@ When G2 is required, Exoframe dispatches a dedicated acceptance-author agent bef
 | R2 | Public contract, state, costly rollback, or meaningful uncertainty | API, persistence, background job, package, unknown production path | targeted human review |
 | R3 | Security, money, data loss, irreversible migration, or control plane | authorization, destructive storage, billing, runner/policy changes | critical human review and rollback review |
 
-Risk MUST fail upward. Signals may raise a tier but an implementation agent cannot lower one. Unknown production paths receive provisional R2 coverage. Control-plane and trust-boundary changes are R3.
+Risk MUST fail upward. Signals may raise a tier but an implementation agent cannot lower one. Unknown production paths receive provisional R2 coverage. Control-plane and trust-boundary changes are R3. Exoframe keeps R0–R3. It MUST NOT add R4 or a 0–100 score.
+
+### 14.1.1 Operator interface
+
+The host AI engine runs the Exoframe workflow through the project skill in `.cursor/skills/exoframe/`. Exoframe MUST NOT call a model API or require a model API key. The host session supplies semantic understanding (scope facts, implementation via pstack/poteto-mode). The library supplies deterministic policy (`matchSurfaces`, `classifyRisk`, `applyScopeFacts`, `reevaluateRisk`, `bootstrapSurfaces`).
+
+The CLI in `src/cli.ts` is a local lever for durable intake state and argv-locked `gate run`. It MUST NOT become the operator product and MUST NOT call models. Protected templates still reject raw command text.
+
+### 14.1.2 Scope facts and two evaluations
+
+After intent is clear and before pstack implements, the host engine extracts scope facts. Facts name predicted paths, change types, sensitive-domain flags, blast radius, and uncertainty (`KNOWN` | `PARTIALLY_KNOWN` | `UNKNOWN`). Facts answer what is likely to change. They do not award autonomy.
+
+Pre-work risk is `applyScopeFacts(classifyRisk(predicted paths), facts)`. Post-diff risk repeats that function on the actual candidate paths. `reevaluateRisk` takes both decisions. Overall is the maximum. Extra actual paths escalate. Predicted paths that were not changed MUST NOT lower overall. Merge and review follow post-diff overall.
+
+### 14.1.3 Surface bootstrap
+
+A repository without `.exoframe/surfaces.json` MUST run `bootstrapSurfaces` and open a human-reviewed proposal under `.exoframe/proposals/`. Bootstrap writes `.exoframe/proposals/surfaces.yaml` as the human-readable full catalog. It writes `.exoframe/proposals/catalog.json` as the full catalog to copy into `.exoframe/surfaces.json`. It writes `.exoframe/proposals/surfaces.json` as the `matchSurfaces` proposal `{ schema_version, surfaces }`. The runtime accepted catalog is `.exoframe/surfaces.json`. The proposal is a surface catalog, not a parallel `.pstack-risk.yml`. Product implementation MUST NOT start until a human copies the accepted catalog into `.exoframe/surfaces.json`. A later agent MUST NOT lower an accepted floor.
 
 ### 14.2 Path categories
 
@@ -924,6 +940,10 @@ Post-MVP provider commands are defined in `exoframe-post-mvp.md`.
 normalizeTask(input, repositoryFacts) -> Intent | DecisionPacket
 matchSurfaces(basePolicy, diff, catalog) -> SurfaceDecision
 classifyRisk(basePolicy, intent, diff, surfaces) -> RiskDecision
+parseScopeFacts(input) -> ScopeFacts
+applyScopeFacts(risk, facts) -> RiskDecision
+reevaluateRisk(planned, actual) -> RiskReevaluation
+bootstrapSurfaces(checkoutRoot) -> SurfaceBootstrapResult
 deriveGates(basePolicy, risk, surfaces, contracts, delivery) -> GatePlan
 buildAssignment(intent, risk, surfaces, contracts, gates) -> PstackAssignment
 computeEvidenceKey(gate, tree, artifacts, environment) -> EvidenceKey | Uncertain
