@@ -186,6 +186,9 @@ const allowedPublishedPackagePaths = new Set([
   "dist/risk-bootstrap.d.ts",
   "dist/risk-bootstrap.js",
   "dist/risk-bootstrap.js.map",
+  "dist/risk-reevaluation.d.ts",
+  "dist/risk-reevaluation.js",
+  "dist/risk-reevaluation.js.map",
   "dist/risk.d.ts",
   "dist/risk.js",
   "dist/risk.js.map",
@@ -207,6 +210,12 @@ const allowedPublishedPackagePaths = new Set([
   "dist/scenarios.d.ts",
   "dist/scenarios.js",
   "dist/scenarios.js.map",
+  "dist/scope-facts.d.ts",
+  "dist/scope-facts.js",
+  "dist/scope-facts.js.map",
+  "dist/surface-bootstrap.d.ts",
+  "dist/surface-bootstrap.js",
+  "dist/surface-bootstrap.js.map",
   "dist/surfaces.d.ts",
   "dist/surfaces.js",
   "dist/surfaces.js.map",
@@ -766,8 +775,8 @@ test("the published package carries its license and auditable upstream reuse pol
   );
   assert.equal(
     packedPackage.files.length,
-    127,
-    "the package must publish exactly the 127 reviewed artifacts",
+    136,
+    "the package must publish exactly the 136 reviewed artifacts",
   );
 
   const licenseEntry = packedPackage.files.find((file) => file.path === "LICENSE.md");

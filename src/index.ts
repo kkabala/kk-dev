@@ -113,18 +113,33 @@ export type {
 export { FilePreparationStore } from "./preparation-store.ts";
 export { classifyRisk } from "./risk.ts";
 export type { PathRisk, RiskDecision } from "./risk.ts";
+export { applyScopeFacts, parseScopeFacts } from "./scope-facts.ts";
+export type {
+  BlastRadius,
+  ChangeType,
+  ScopeFacts,
+  Uncertainty,
+} from "./scope-facts.ts";
+export { reevaluateRisk } from "./risk-reevaluation.ts";
+export type { RiskReevaluation } from "./risk-reevaluation.ts";
 export {
   bootstrapRiskPolicy,
+  bootstrapSurfaces,
   renderRiskPolicyYaml,
+  renderSurfaceCatalogYaml,
   resolvePathMinimumRisk,
+  writeBootstrapProposals,
 } from "./risk-bootstrap.ts";
 export type {
   CriticalitySignal,
+  DomainCriticality,
   DomainObservation,
   PathRiskRule,
   ProposedRiskPolicy,
   RiskBootstrapFacts,
   RiskBootstrapResult,
+  SurfaceBootstrapResult,
+  SurfaceCatalog,
   TestabilityProfile,
 } from "./risk-bootstrap.ts";
 export { resolveVerificationBoundaries } from "./roles.ts";

@@ -628,3 +628,14 @@ export async function readPackageHint(
     return null;
   }
 }
+
+export {
+  bootstrapSurfaces,
+  renderSurfaceCatalogYaml,
+  writeBootstrapProposals,
+} from "./surface-bootstrap.ts";
+export type {
+  DomainCriticality,
+  SurfaceBootstrapResult,
+  SurfaceCatalog,
+} from "./surface-bootstrap.ts";
