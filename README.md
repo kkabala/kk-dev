@@ -3,6 +3,12 @@
 Exoframe is an autonomous delivery control plane around the unchanged
 third-party pstack/poteto-mode implementation engine.
 
+The operator interface is the project skill at
+[`.cursor/skills/exoframe/SKILL.md`](./.cursor/skills/exoframe/SKILL.md).
+Run tasks from the host AI engine. Exoframe does not call a model API and
+does not need a model key. The library classifies risk. pstack/poteto-mode
+implements. The protected runner still owns PASS.
+
 The MVP is being implemented from [the final specification](./kk-dev-final-spec.md).
 Progress and pre-commit Grok reviews are recorded in
 [the implementation ledger](./IMPLEMENTATION_LEDGER.md).
@@ -20,14 +26,30 @@ npm ci
 npm run check
 ```
 
-Build and inspect the CLI:
+Build and inspect the local CLI lever:
 
 ```bash
 npm run build
 node dist/bin.js --help
 ```
 
-## Stage 1 CLI
+Bootstrap a reviewable surface catalog (writes `.exoframe/proposals/`, never
+the accepted `.exoframe/surfaces.json`):
+
+```bash
+npm run build
+node scripts/bootstrap-surfaces.mjs
+```
+
+The script writes `.exoframe/proposals/surfaces.yaml` for humans,
+`.exoframe/proposals/catalog.json` to copy into `.exoframe/surfaces.json`,
+and `.exoframe/proposals/surfaces.json` in the `matchSurfaces` proposal shape.
+
+## Local CLI lever
+
+The CLI does not call models. Agents following the skill may use it for
+durable intake state and argv-locked `gate run`. Humans should follow the
+skill, not treat `exoframe run` as the product.
 
 Start a direct-text task and inspect its durable run:
 

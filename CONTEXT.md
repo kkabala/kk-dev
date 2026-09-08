@@ -134,7 +134,27 @@ _Avoid_: Default skip, inferred R0
 
 **Risk tier**:
 The fail-up classification of a change from R0 to R3; signals may raise it and an implementation agent cannot lower it.
-_Avoid_: Severity, priority, review level
+_Avoid_: Severity, priority, review level, R4, numeric score
+
+**Scope facts**:
+The structured prediction of what a change will touch (paths, change types, sensitive domains, blast radius, uncertainty) extracted before implementation. Facts may raise a risk floor and must not lower one.
+_Avoid_: Risk opinion, auto-merge permission, ticket keywords, confidence probability
+
+**Pre-work risk**:
+The fail-up tier computed from predicted paths, the accepted surface catalog, and scope facts before implementation.
+_Avoid_: Final merge decision, post-diff risk, LLM autonomy verdict
+
+**Post-diff risk**:
+The fail-up tier computed from the actual candidate paths after implementation. Merge and review follow this tier, never pre-work alone.
+_Avoid_: Pre-work risk, planned-only classification
+
+**Risk reevaluation**:
+The comparison of pre-work and post-diff decisions. Extra actual paths or a higher actual tier escalate. Paths that were predicted and not changed do not lower the overall tier.
+_Avoid_: Re-score, agent downgrade, keyword recheck
+
+**Surface bootstrap**:
+The one-time scan that proposes a surface catalog for human review under `.exoframe/proposals/`. Accepted runtime policy lives in `.exoframe/surfaces.json`.
+_Avoid_: Per-task classification, .pstack-risk.yml, silent auto-accept
 
 **Protected Acceptance Contract**:
 The locked observable meaning of a task, including named outcomes, intended red, and oracle identity, recorded before implementation.
