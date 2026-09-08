@@ -52,6 +52,7 @@ exoframe evidence show <gate-id>
 exoframe gate run --task <task-id> --gate <gate-id>
 exoframe surfaces explain <path>
 exoframe policy check
+exoframe risk-bootstrap
 ```
 
 `run` emits the new task, its durable checkpoint, and the automatic intake

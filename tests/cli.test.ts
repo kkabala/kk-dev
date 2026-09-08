@@ -49,6 +49,7 @@ test("--help explains the available task lifecycle interface", async () => {
       "  exoframe gate run --task <task-id> --gate <gate-id>",
       "  exoframe surfaces explain <path>",
       "  exoframe policy check",
+      "  exoframe risk-bootstrap",
       "  exoframe --help",
       "  exoframe --version",
     ].join("\n"),
@@ -75,4 +76,17 @@ test("unknown arguments fail with an actionable message", async () => {
   assert.deepEqual(capture.stderr, [
     "Unknown argument: unknown\nRun exoframe --help for usage.",
   ]);
+});
+
+test("risk-bootstrap rejects extra arguments before touching a checkout", async () => {
+  const capture = captureIo();
+
+  const exitCode = await runCli(["risk-bootstrap", "extra"], capture.io);
+
+  assert.equal(exitCode, 2);
+  assert.deepEqual(capture.stdout, []);
+  assert.match(
+    capture.stderr.join("\n"),
+    /risk-bootstrap does not take arguments/u,
+  );
 });
