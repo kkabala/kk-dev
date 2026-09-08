@@ -113,6 +113,20 @@ export type {
 export { FilePreparationStore } from "./preparation-store.ts";
 export { classifyRisk } from "./risk.ts";
 export type { PathRisk, RiskDecision } from "./risk.ts";
+export {
+  bootstrapRiskPolicy,
+  renderRiskPolicyYaml,
+  resolvePathMinimumRisk,
+} from "./risk-bootstrap.ts";
+export type {
+  CriticalitySignal,
+  DomainObservation,
+  PathRiskRule,
+  ProposedRiskPolicy,
+  RiskBootstrapFacts,
+  RiskBootstrapResult,
+  TestabilityProfile,
+} from "./risk-bootstrap.ts";
 export { resolveVerificationBoundaries } from "./roles.ts";
 export type {
   AgentIdentities,

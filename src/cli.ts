@@ -1,6 +1,6 @@
 import { execFile, spawn } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
-import { constants, lstat, open, realpath } from "node:fs/promises";
+import { constants, lstat, open, realpath, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import path from "node:path";
 import process from "node:process";
@@ -36,6 +36,7 @@ import type { RunCatalogRecord } from "./run-catalog.ts";
 import { RUN_EVENTS, transitionRunState } from "./run-state.ts";
 import { FileRunStateStore } from "./run-state-store.ts";
 import type { PersistedRunState } from "./run-state-store.ts";
+import { bootstrapRiskPolicy } from "./risk-bootstrap.ts";
 import { matchSurfaces } from "./surfaces.ts";
 
 const execFileAsync = promisify(execFile);
@@ -77,6 +78,7 @@ const HELP = [
   "  exoframe gate run --task <task-id> --gate <gate-id>",
   "  exoframe surfaces explain <path>",
   "  exoframe policy check",
+  "  exoframe risk-bootstrap",
   "  exoframe --help",
   "  exoframe --version",
 ].join("\n");
@@ -647,6 +649,26 @@ async function policyCheckCommand(
   return decision.policy_weakening ? 1 : 0;
 }
 
+async function riskBootstrapCommand(
+  io: CliIo,
+  services: CliServices,
+): Promise<number> {
+  const result = await bootstrapRiskPolicy(services.checkoutRoot);
+  const policyPath = path.join(services.checkoutRoot, ".pstack-risk.yml");
+  await writeFile(policyPath, result.yaml, "utf8");
+  printJson(
+    io,
+    Object.freeze({
+      schema_version: 1,
+      policy_path: ".pstack-risk.yml",
+      facts: result.facts,
+      policy: result.policy,
+      yaml: result.yaml,
+    }),
+  );
+  return 0;
+}
+
 function toView(
   record: RunCatalogRecord,
   run: PersistedRunState,
@@ -1091,6 +1113,13 @@ function validateCommandArguments(
       return args.length === 1 && args[0] === "check"
         ? null
         : "policy requires the check subcommand.";
+    case "risk-bootstrap":
+      if (args.some(isRawCliToken)) {
+        return RAW_COMMAND;
+      }
+      return args.length === 0
+        ? null
+        : "risk-bootstrap does not take arguments.";
     default:
       throw new TypeError("Unsupported CLI command");
   }
@@ -1115,9 +1144,17 @@ export async function runCli(
 
   const [command, ...commandArgs] = args;
   if (
-    !["run", "status", "explain", "resume", "gate", "evidence", "surfaces", "policy"].includes(
-      command ?? "",
-    )
+    ![
+      "run",
+      "status",
+      "explain",
+      "resume",
+      "gate",
+      "evidence",
+      "surfaces",
+      "policy",
+      "risk-bootstrap",
+    ].includes(command ?? "")
   ) {
     io.error(
       `Unknown argument: ${terminalSafe(command ?? "")}\n` +
@@ -1154,6 +1191,8 @@ export async function runCli(
         return await surfacesExplainCommand(commandArgs, io, services);
       case "policy":
         return await policyCheckCommand(io, services);
+      case "risk-bootstrap":
+        return await riskBootstrapCommand(io, services);
       default:
         throw new TypeError("Unsupported CLI command");
     }
